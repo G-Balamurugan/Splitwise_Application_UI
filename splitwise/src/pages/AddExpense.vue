@@ -22,6 +22,7 @@
             v-model="totalAmount"
             label="Total Amount *"
             type="number"
+            @input="handleTotalAmountInput"
             outlined
           ></v-text-field>
         </v-col>
@@ -56,7 +57,10 @@
           <v-text-field
             v-model="splitPercentages[index]"
             label="Split %"
+            type="number"
+            @input="handleSplitPercentageInput(index)"
             :disabled="shouldDisableSplitPercentage(index)"
+            outlined
           ></v-text-field>
         </v-col>
       </v-row>

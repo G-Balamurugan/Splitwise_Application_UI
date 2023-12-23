@@ -2,7 +2,12 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="6" md="4">
-        <v-text-field v-model="search" label="Search" @keyup.enter="searchByCategory" outlined></v-text-field>
+        <v-text-field
+          v-model="search"
+          label="Search"
+          @keyup.enter="searchByCategory"
+          outlined
+        ></v-text-field>
       </v-col>
       <v-col justify="end" style="margin: 20px; text-align: end">
         <v-btn @click="createExpense">Create Expense</v-btn>
@@ -35,8 +40,10 @@
             <v-card-subtitle class="group-card-subtitle"
               >Category: {{ expense.category }}
             </v-card-subtitle>
-            <v-card-subtitle class="group-card-head-subtitle">
-              Created By: {{ expense.createdBy }}</v-card-subtitle
+          </v-col>
+          <v-col style="width: 100%; display: flex; padding-bottom: 0px">
+            <v-card-subtitle class="group-card-subtitle">
+              Created By: {{ getUserById(expense.createdBy) }}</v-card-subtitle
             >
           </v-col>
 
@@ -94,16 +101,23 @@
             Users Paid
           </v-card-subtitle>
 
-          <v-card-actions style="justify-content: end; width: 100%">
+          <v-card-actions v-if="isUserAvailableInList(expense)" style="justify-content: end; width: 100%">
             <v-btn
               @click="payExpense(expense.expenseId)"
               :disabled="hasUserPaid(expense)"
               :color="hasUserPaid(expense) ? 'green' : 'primary'"
             >
-            <v-icon color="success" v-if="hasUserPaid(expense)">mdi-check</v-icon>
-            {{ hasUserPaid(expense) ? "Paid" : "Pay" }}
+              <v-icon color="success" v-if="hasUserPaid(expense, index)"
+                >mdi-check</v-icon
+              >
+              {{ hasUserPaid(expense) ? "Paid" : "Pay" }}
             </v-btn>
           </v-card-actions>
+          <v-card-actions v-if="!isUserAvailableInList(expense)" style="justify-content: center; width: 100%">
+          <p>
+              *User not available in the list*
+            </p>
+ </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -134,7 +148,6 @@
 }
 
 .group-card-subtitle {
-  width: 50%;
   display: flex;
   justify-content: start;
 }

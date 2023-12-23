@@ -12,10 +12,21 @@ export const useAppStore = defineStore('app', {
     groupCreationStatus: "",
     loginStatus: "",
     notifications: [],
+    showNotification: false,
   }),
   actions: {
     logoutUser() {
       this.loginStatus = ""
+    },
+    setNotificationTrue() {
+      console.log("opening")
+      this.showNotification = true;
+    },
+    setNotificationFalse() {
+      this.showNotification = false;
+    },
+    toggleNotification() {
+      this.showNotification = !this.showNotification
     },
     async LOGIN(loginDetails) {
       const payload = loginDetails.payload;
@@ -27,9 +38,8 @@ export const useAppStore = defineStore('app', {
         localStorage.setItem('userId', data.id);
         localStorage.setItem('phoneNumber', loginDetails.payload.phoneNumber);
         if (data.status == "Login Successful" || data.status == "Already Logged In") {
-          console.log("User logged in: ", data); 
           this.loginStatus = "success"
-          //success()
+          loginDetails.success()
         } else {
           console.log("Invalid user credentials");
           this.loginStatus = "failed" 
@@ -155,11 +165,13 @@ export const useAppStore = defineStore('app', {
         this.groupCreationStatus = "failed";
       }
     },
-    async PAY_EXPENSE(expenseId, userId){
+    async PAY_EXPENSE(expenseId, userId, groupId){
       const payExpenseResponse = await services.payExpense(expenseId, userId)
       const data = await payExpenseResponse.json();
-      if(payExpenseResponse.status === 200)
+      if(payExpenseResponse.status === 200){
         console.log("Fetched expense: ", data);
+        this.GET_ALL_EXPENSES(groupId);
+      }
       else
         console.log("Error fetching expense")
     },

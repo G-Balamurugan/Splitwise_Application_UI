@@ -1,5 +1,5 @@
 <template>
-  <div v-if="notifications.length > 0" class="notification-container">
+  <div v-if="notifications.length > 0" ref="notificationContainer" class="notification-container">
     <div
       v-for="(notification, index) in notifications"
       :key="index"

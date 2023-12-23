@@ -1,7 +1,7 @@
 const local = "http://localhost"  
 const net = "http://10.30.1.178"
 
-const url = net
+const url = local
 
   const login = (loginDetails) => {
     return fetch(url+":8081/httpmethod/login", {

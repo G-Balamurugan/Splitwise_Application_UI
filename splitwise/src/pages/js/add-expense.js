@@ -19,6 +19,7 @@ export default {
     isValidForm() {
       const isTotalAmountValid =
         !isNaN(this.totalAmount) && parseFloat(this.totalAmount) > 0;
+      const isNote = !!this.note;
       const isCurrencySelected = !!this.selectedCurrency;
       const isCategorySelected = !!this.selectedCategory;
       const isAtLeastOneUserSelected = this.selectedUsers.some((user) => user);
@@ -27,6 +28,7 @@ export default {
 
       return (
         isTotalAmountValid &&
+        isNote &&
         isCurrencySelected &&
         isCategorySelected &&
         isAtLeastOneUserSelected &&
@@ -34,8 +36,8 @@ export default {
       );
     },
     canSplitEqually() {
-        return this.selectedUsers.some(user => user);
-      },
+      return this.selectedUsers.some((user) => user);
+    },
     ...mapState(useAppStore, ["users"]),
   },
   methods: {
@@ -58,11 +60,19 @@ export default {
         return sum;
       }, 0);
     },
+    handleTotalAmountInput() {
+      this.totalAmount = Math.abs(parseFloat(this.totalAmount)).toString();
+    },
+    handleSplitPercentageInput(index) {
+      this.splitPercentages[index] = Math.abs(
+        parseFloat(this.splitPercentages[index])
+      ).toString();
+    },
     createExpense() {
       if (this.isValidForm) {
         const userList = this.selectedUsers.reduce((acc, selected, index) => {
           if (selected && this.splitPercentages[index] !== "") {
-            const userId = index + 1;
+            const userId = this.users[index].userId;
             const payed =
               userId === parseInt(localStorage.getItem("userId"), 10);
             acc.push({
@@ -97,20 +107,23 @@ export default {
       }
     },
     onSuccess() {
-        this.resetForm();
-        this.$router.push("/group/" + this.$route.params.group_id);
+      this.resetForm();
+      this.$router.push("/group/" + this.$route.params.group_id);
     },
     resetForm() {
       this.note = "";
     },
     splitEqually() {
-        const numberOfSelectedUsers = this.selectedUsers.filter(user => user).length;
-        const equalPercentage = numberOfSelectedUsers === 0 ? 0 : 100 / numberOfSelectedUsers;
-    
-        this.splitPercentages = this.selectedUsers.map((user, index) => {
-          return user ? equalPercentage.toFixed(2) : "";
-        });
-      },
+      const numberOfSelectedUsers = this.selectedUsers.filter(
+        (user) => user
+      ).length;
+      const equalPercentage =
+        numberOfSelectedUsers === 0 ? 0 : 100 / numberOfSelectedUsers;
+
+      this.splitPercentages = this.selectedUsers.map((user, index) => {
+        return user ? equalPercentage.toFixed(2) : "";
+      });
+    },
     ...mapActions(useAppStore, ["ADD_EXPENSE", "GET_GROUP_MEMBERS"]),
   },
   created() {

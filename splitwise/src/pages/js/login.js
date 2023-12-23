@@ -41,7 +41,6 @@ export default {
             };
             this.LOGIN(actions);
             console.log(this.loginStatus, "status")
-            // navigatePage()
             if (this.loginStatus === "success") {
               console.log("User logged in successfully!");
               this.$router.push("/")
@@ -55,6 +54,7 @@ export default {
       onSuccessOfLogin() {
         this.$router.push("/")
         const userId = localStorage.getItem("userId");
+        console.log(userId, " user id")
         this.GET_NOTIFICATION(userId);
       },
       navigatePage(){
@@ -65,7 +65,7 @@ export default {
           console.log("Login failed.");
         }    
       },
-      ...mapActions(useAppStore, ["LOGIN"]),
+      ...mapActions(useAppStore, ["LOGIN", "GET_NOTIFICATION"]),
     },
     
   computed: {

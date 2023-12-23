@@ -9,7 +9,26 @@ export default {
     Notification,
   },
   methods: {
-    openNotifications() {},
+    openNotifications() {
+      console.log("open");
+      this.toggleNotification();
+    //   this.setNotificationTrue();
+      console.log(this.showNotification)
+    },
+    closeNotifications() {
+      console.log("close");
+      this.setNotificationFalse();
+    //   this.setNotificationFalse();
+    },
+    handleDocumentClick(event) {
+      const notificationComponent = this.$refs.notificationComponent;
+      const clickedInsideNotification = notificationComponent.$el.contains(
+        event.target
+      );
+      if (!clickedInsideNotification) {
+        this.closeNotifications();
+      }
+    },
     homePage() {
       this.$router.push("/");
     },
@@ -20,28 +39,31 @@ export default {
       console.log(this.loginStatus);
       localStorage.clear();
     },
-    openNotifications() {
-      this.showNotifications = !this.showNotifications;
-    },
-    ...mapActions(useAppStore, ["logoutUser"]),
+    ...mapActions(useAppStore, [
+      "logoutUser",
+      "GET_NOTIFICATION",
+      "setNotificationTrue",
+      "setNotificationFalse",
+      "toggleNotification",
+    ]),
   },
   data() {
     return {
-      showNotifications: false,
+      //   showNotifications: false,
     };
   },
   computed: {
     ...mapState(useAppStore, [
       "notificationCount",
       "loginStatus",
-      "GET_NOTIFICATION",
+      "showNotification",
     ]),
     isLoginPage() {
       return this.$route.name != "login";
     },
   },
-  created() {
+  mounted() {
     const userId = localStorage.getItem("userId");
     this.GET_NOTIFICATION(userId);
-  }
+  },
 };

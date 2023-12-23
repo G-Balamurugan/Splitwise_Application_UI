@@ -33,7 +33,11 @@
 
     <v-main class="content">
       <router-view></router-view>
-      <Notification v-if="showNotifications" />
+      <Notification
+        v-if="showNotification"
+        @closeNotification="closeNotifications"
+        ref="notificationComponent"
+      />
     </v-main>
   </v-app>
 </template>
@@ -41,6 +45,13 @@
 <script src="./js/nav-bar"></script>
 
 <style scoped>
+* {
+    background-image: url('src/assets/wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+}
 .logo {
   margin: 10px;
   border-radius: 10px;
@@ -49,6 +60,5 @@
 
 .content {
   width: 100%;
-  background-color: #E0F4FF;  
 }
 </style>

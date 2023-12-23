@@ -41,12 +41,6 @@ export default {
             };
             this.LOGIN(actions);
             console.log(this.loginStatus, "status")
-            if (this.loginStatus === "success") {
-              console.log("User logged in successfully!");
-              this.$router.push("/")
-            } else {
-              console.log("Login failed.");
-            }
           } else {
             console.log("Form is invalid. Cannot submit.");
           }

@@ -33,7 +33,9 @@
                 prepend-icon="mdi-lock"
               ></v-text-field>
 
-              <p v-if="(loginStatus)"></p>
+              <!-- <p v-if="(loginStatus)"></p> -->
+
+              <p v-if="loginStatus === 'failed'" class="error-message">Invalid credentials. Please try again.</p>
 
               <v-row class="d-flex justify-center" style="margin-top: 15px">
                 <v-btn type="submit" @submit="login" color="#1B4242">Login</v-btn>
@@ -90,6 +92,14 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
 
+.error-message {
+    color: red;
+    text-align: center;
+    opacity: 1;
+    /* transition: opacity 5s ease; Transition from 0.5 to 1 opacity in 5 seconds */
   }
+
+
 </style>

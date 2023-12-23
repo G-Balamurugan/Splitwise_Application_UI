@@ -10,7 +10,7 @@
           <div class="login-cred">
           <v-card-title class="text-center" style="margin: 20px 0px;">Login</v-card-title>
           <v-card-text >
-            <v-form @submit.prevent="login" ref="form">
+            <v-form @submit.prevent="login" ref="form" class="form-class">
               <!-- Phone Number Input with Icon -->
               <v-text-field
                 v-model="phoneNumber"
@@ -61,6 +61,7 @@ body {
     padding: 20px; 
     padding-top: 65px;
     height: 420px;
+    /* height: 65%; */
   }
   .position-relative {
     position: relative;
@@ -84,4 +85,11 @@ body {
     justify-content: space-evenly;
   }
   
+  .form-class {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
 </style>

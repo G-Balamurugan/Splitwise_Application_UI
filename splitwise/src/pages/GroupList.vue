@@ -13,8 +13,9 @@
         v-for="group in groups"
         :key="group.groupId"
         cols="12"
-        sm="6"
-        md="4"
+        xs="6"
+        sm="4"
+        md="3"
         lg="2"
       >
         <v-card class="group-card">

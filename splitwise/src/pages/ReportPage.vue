@@ -1,43 +1,79 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          v-model="fromDate"
-          label="From Date"
-          type="date"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          v-model="toDate"
-          label="To Date"
-          type="date"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+  <div style="width: 100%">
+    <div class="container">
+      <p class="need-to-pay total">
+        Total to Pay: {{ groupWiseReport.totalToPay }}
+      </p>
+      <p class="need-to-receive total">
+        Total to Receive: {{ groupWiseReport.totalToReceive }}
+      </p>
+    </div>
+    <div class="chart-container">
+      <div class="chart">
+        <canvas ref="groupChart"></canvas>
+      </div>
+      <div class="chart">
+        <canvas ref="categoryChart"></canvas>
+      </div>
+    </div>
 
-    <v-row>
-      <v-col cols="12">
-        <v-alert :value="true">
-          Total Amount Spent: {{ calculateTotal() }}
-        </v-alert>
-      </v-col>
-    </v-row>
-
-  </v-container>
+    <!-- <div>
+      <p>User-wise Amounts:</p>
+      <ul>
+        <li v-for="(summary, index) in groupWiseReport.groupSummaryList" :key="index">
+          {{ `User ${summary.userId}: Need to Pay - ${summary.totalToPay}, Need to Receive - ${summary.totalToReceive}, In group id - ${summary.groupId}`  }}
+        </li>
+      </ul>
+    </div> -->
+  </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      fromDate: null,
-      toDate: null,
-    };
-  },
-  methods: {
-    calculateTotal() {},
-  },
-};
+<script src="./js/report-page.js">
+
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.need-to-receive {
+  background-color: #ff3333;
+}
+
+.need-to-pay {
+  background-color: green;
+}
+
+.total {
+  color: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.chart {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* align-items: center; */
+  width: 100%;
+  height: 80%;
+}
+@media (max-width: 850px) {
+  .chart {
+    width: 100%;
+  }
+}
+</style>

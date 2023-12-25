@@ -15,15 +15,6 @@ export default {
     closeNotifications() {
       this.setNotificationFalse();
     },
-    handleDocumentClick(event) {
-      const notificationComponent = this.$refs.notificationComponent;
-      const clickedInsideNotification = notificationComponent.$el.contains(
-        event.target
-      );
-      if (!clickedInsideNotification) {
-        this.closeNotifications();
-      }
-    },
     homePage() {
       this.$router.push("/");
     },
@@ -46,6 +37,11 @@ export default {
       "toggleNotification",
     ]),
   },
+  watch: {
+    $route(to, from) {
+      this.closeNotifications();
+    },
+  },
   data() {
     return {
       isLargeScreen: window.innerWidth >= 1250,
@@ -66,7 +62,6 @@ export default {
     isListPage() {
       return !this.$route.params.group_id
     }
-
   },
   mounted() {
     const userId = localStorage.getItem("userId");

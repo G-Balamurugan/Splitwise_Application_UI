@@ -45,8 +45,8 @@ const url = local
   };
   
   const getAllExpensesByCategory = (groupId, category) => {
-    // const url = `http://localhost:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
-    const url = `http://10.30.1.178:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
+    const url = `http://localhost:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
+    // const url = `http://10.30.1.178:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
     return fetch(url, {
       method: "GET",
       headers: {
@@ -85,6 +85,27 @@ const url = local
       mode: "cors",
     });
   };
+
+  const getGroupReport = (userId) => {
+    return fetch(url+":8089/httpmethod/filter-amount/" + userId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+    });
+  };
+
+  const getCategoryReport = (userId) => {
+    return fetch(url+":8089/httpmethod/filter/user-category/" + userId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+    });
+  };
+
 
   const addExpense = (expenseDetails) => {
     return fetch(url+":8089/httpmethod/add/expense", {
@@ -141,5 +162,7 @@ const url = local
     getNotifications,
     getGroupDetails,
     updateGroup,
+    getGroupReport,
+    getCategoryReport,
   };
   

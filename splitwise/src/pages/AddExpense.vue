@@ -76,14 +76,14 @@
             <v-btn
               @click="splitEqually"
               :disabled="!canSplitEqually"
-              color="primary"
+              color="#1B4242"
               style="margin: 0px 30px"
               >Split Equally</v-btn
             >
             <v-btn
               @click="createExpense"
               :disabled="!isValidForm"
-              color="primary"
+              color="#1B4242"
               >Create Expense</v-btn
             >
           </v-row>

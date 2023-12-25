@@ -13,6 +13,9 @@ export const useAppStore = defineStore('app', {
     loginStatus: "",
     notifications: [],
     showNotification: false,
+    categoryWiseReport: [],
+    groupWiseReport: {},
+    currentUserId: localStorage.getItem("userId"),
     // groupDetails: {},
   }),
   actions: {
@@ -144,6 +147,34 @@ export const useAppStore = defineStore('app', {
         this.users = data;
         if (memberResponse.status == 200) {
           
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+    async GET_GROUP_REPORT(userID, success) {
+      try {
+        const groupReportResponse = await services.getGroupReport(userID);
+        const data = await groupReportResponse.json();
+        this.groupWiseReport = data;
+        if (groupReportResponse.status == 200) {
+          success()
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+    async GET_CATEGORY_REPORT(userID, success) {
+      try {
+        const categoryReportResponse = await services.getCategoryReport(userID);
+        const data = await categoryReportResponse.json();
+        this.categoryWiseReport = data;
+        if (categoryReportResponse.status == 200) {
+          success()
         } else {
           console.log("Error in fetch");
         }

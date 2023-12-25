@@ -117,6 +117,6 @@
 }
 
 .selected-group {
-  background-color: red; /* Add your selected group background color here */
+  background-color: red; 
 }
 </style>

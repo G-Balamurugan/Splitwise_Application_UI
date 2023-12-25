@@ -19,18 +19,13 @@ export default {
     watch: {
       loginStatus(newValue) {
         if (newValue === "success") {
-          console.log("User logged in successfully!!!!!");
           this.$router.push("/")
-        } else {
-          console.log("Login failed.");
         }
       }
     },
     methods: {
       login() {
           if(this.phoneNumber.length == 10 && this.password.length >= 4 ){
-            console.log("Phone number:", this.phoneNumber);
-            console.log("Password:", this.password);
             const loginRequest = {
               phoneNumber: this.phoneNumber,
               userPassword: this.password,
@@ -40,7 +35,6 @@ export default {
               success: this.onSuccessOfLogin
             };
             this.LOGIN(actions);
-            console.log(this.loginStatus, "status")
           } else {
             console.log("Form is invalid. Cannot submit.");
           }
@@ -48,17 +42,8 @@ export default {
       onSuccessOfLogin() {
         this.$router.push("/")
         const userId = localStorage.getItem("userId");
-        console.log(userId, " user id")
         this.GET_NOTIFICATION(userId);
       },
-      // navigatePage(){
-      //   if (this.loginStatus === "success") {
-      //     console.log("User logged in successfully!");
-      //     this.$router.push("/")
-      //   } else {
-      //     console.log("Login failed.");
-      //   }    
-      // },
       ...mapActions(useAppStore, ["LOGIN", "GET_NOTIFICATION"]),
     },
     

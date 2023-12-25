@@ -20,7 +20,6 @@ export const useAppStore = defineStore('app', {
       this.loginStatus = ""
     },
     setNotificationTrue() {
-      console.log("opening")
       this.showNotification = true;
     },
     setNotificationFalse() {
@@ -35,7 +34,6 @@ export const useAppStore = defineStore('app', {
       try {
         const loginResponse = await services.login(payload);
         const data = await loginResponse.json();
-        console.log(loginResponse);
         localStorage.setItem('userId', data.id);
         localStorage.setItem('phoneNumber', loginDetails.payload.phoneNumber);
         if (data.status == "Login Successful" || data.status == "Already Logged In") {
@@ -70,7 +68,6 @@ export const useAppStore = defineStore('app', {
       try {
         const groupResponse = await services.getAllGroups(localStorage.getItem("userId"));
         const data = await groupResponse.json();
-        console.log(groupResponse);
         this.groups = data;
         if (groupResponse.status == 200) {
           
@@ -85,7 +82,6 @@ export const useAppStore = defineStore('app', {
       try {
         const expenseResponse = await services.getAllExpenses(groupId);
         const data = await expenseResponse.json();
-        console.log(expenseResponse);
         this.expenses = data;
         if (expenseResponse.status == 200) {
           
@@ -100,7 +96,6 @@ export const useAppStore = defineStore('app', {
       try {
         const expenseResponse = await services.getAllExpensesByCategory(groupId, category);
         const data = await expenseResponse.json();
-        console.log(expenseResponse);
         this.expenses = data;
         if (expenseResponse.status == 200) {
           
@@ -131,12 +126,10 @@ export const useAppStore = defineStore('app', {
       try {
         const groupResponse = await services.getGroupDetails(groupId);
         const data = await groupResponse.json();
-        console.log(groupResponse);
         this.groupDetails = data;
         if (groupResponse.status == 200) {
           this.groupDetails = data;
-          console.log(this.data)
-          success(); // data -> status pass/fails
+          success(); 
         } else {
           console.log("Error in fetch");
         }
@@ -148,7 +141,6 @@ export const useAppStore = defineStore('app', {
       try {
         const memberResponse = await services.getGroupMembers(groupId);
         const data = await memberResponse.json();
-        console.log(memberResponse);
         this.users = data;
         if (memberResponse.status == 200) {
           
@@ -160,11 +152,9 @@ export const useAppStore = defineStore('app', {
       }
     },
     async ADD_EXPENSE({payload, success}){
-      // const payload = expenseDetails.payload
       const createExpenseResponse = await services.addExpense(payload)
       const data = await createExpenseResponse.json();
-      if(createExpenseResponse.status === 200){
-        
+      if(createExpenseResponse.status === 200){  
         success()
       }
       else

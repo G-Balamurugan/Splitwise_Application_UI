@@ -9,11 +9,9 @@ export default {
   },
   methods: {
     createGroup() {
-      console.log("Creating a new group");
       this.$router.push("/add-group");
     },
     editGroup(groupId) {
-      console.log("Editing group:", groupId);
       this.$router.push("/update-group/" + groupId);
     },
     getFirstLetter(text) {

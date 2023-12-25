@@ -18,7 +18,6 @@ export default {
         }
       },
       notificationClick(groupId) {
-        console.log("group");
         this.$router.push("/group/" + groupId);
       },
       closeNotification() {

@@ -39,12 +39,6 @@ const router = createRouter({
       component: groupPage,
       meta: { requiresAuth: true },
     },
-    // {
-    //   path: "/group/",
-    //   name: "group-page",
-    //   component: groupPage,
-    //   meta: { requiresAuth: true },
-    // },
     {
       path: "/login",
       name: "login",

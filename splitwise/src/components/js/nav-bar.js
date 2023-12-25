@@ -31,9 +31,7 @@ export default {
       this.showNavbar = false;
       this.loginStatus = "";
       this.logoutUser();
-      console.log(this.loginStatus);
       this.closeNotifications();
-      // this.setNotificationFalse();
       localStorage.clear();
     },
 
@@ -60,14 +58,12 @@ export default {
       "showNotification",
     ]),
     isLoginPage() {
-      console.log(this.$route.params.group_id)
       return this.$route.name != "login";
     },
     isGroupPage() {
       return this.$route.name == "group-page" ;
     },
     isListPage() {
-      console.log(this.$route.params.group_id)
       return !this.$route.params.group_id
     }
 

@@ -53,7 +53,6 @@ export default {
     },
     successFetch(){
       this.groupDetail = this.groupDetails
-      console.log(this.groupDetails)
     },
     ...mapActions(useAppStore, [
       "GET_ALL_EXPENSES",
@@ -83,8 +82,6 @@ export default {
       this.GET_ALL_USERS(this.onSuccessUsers);
       this.GET_GROUP_DETAILS(this.$route.params.group_id, this.successFetch);  
     }
-    else
-      console.log(this.$route.params.group_id == "")
   },
 
 };

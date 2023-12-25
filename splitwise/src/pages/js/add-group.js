@@ -55,7 +55,6 @@ export default {
 
       if (this.isUpdate) {
         groupRequest.groupId = this.$route.params.group_id;
-        console.log("Updating group with ID:", this.groupId);
       }
 
       const actions = {
@@ -69,7 +68,6 @@ export default {
         this.ADD_GROUP(actions);
     },
     onSuccess(id) {
-      console.log(id, ":id")
       this.$router.push("/group/"+id)
     },
     onFailure() {

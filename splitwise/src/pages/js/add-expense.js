@@ -85,8 +85,6 @@ export default {
           return acc;
         }, []);
 
-        console.log("User List:", userList);
-
         const expenseRequest = {
           groupId: this.$route.params.group_id,
           note: this.note,
@@ -101,7 +99,6 @@ export default {
           payload: expenseRequest,
           success: this.onSuccess,
         };
-        console.log("expenseRequest ", expenseRequest);
 
         this.ADD_EXPENSE(actions);
       }

@@ -12,48 +12,86 @@ export default {
       addedUsersRules: [
         (v) => (v && v.length > 0) || "Please add at least one user",
       ],
+      errorMessage: false,
+      disabledUser: "",
     };
+  },
+  watch: {
+    users: {
+      handler(newList, oldList) {
+        if(oldList)
+          this.disabledUsers = newList.find((u) => u.userId == localStorage.getItem("userId")).userName;
+      },
+      immediate: true,
+    },
   },
   computed: {
     formIsValid() {
-      return this.groupName && this.addedUsers.length;
+      return this.groupName && this.addedUsers.length>=2;
     },
-    ...mapState(useAppStore, ["users", "usernames", "groupCreationStatus"]),
+    isUpdate() {
+      return this.$route.params.group_id != undefined;
+    },
+
+    ...mapState(useAppStore, ["users", "usernames", "groupCreationStatus", "groupDetails"]),
   },
   methods: {
     removeUser(index) {
       this.addedUsers.splice(index, 1);
     },
-    createGroup() {
-      console.log("Group Name:", this.groupName);
-      console.log("Selected Users:", this.addedUsers);
+    getUserNameByID(userId) {
+        return this.users.find((u) => u.userId == userId).userName;
+    },
+    createOrUpdateGroup() {
       const memberPresent = this.addedUsers.map((username) => {
         const user = this.users.find((u) => u.userName === username);
         return { userId: user.userId };
       });
 
-      if (this.groupName && this.addedUsers) {
-        const groupRequest = {
-          "groupName": this.groupName,
-          "memberPresent": memberPresent,
-        };
-        console.log(groupRequest)
-        const actions = {
-          payload: groupRequest,
-          success: this.onSuccess,
-        };
-        this.ADD_GROUP(actions);
-      } else {
-        console.log("Form is invalid. Cannot submit.");
+      const groupRequest = {
+        groupName: this.groupName,
+        memberPresent: memberPresent,
+      };
+
+      if (this.isUpdate) {
+        groupRequest.groupId = this.$route.params.group_id;
+        console.log("Updating group with ID:", this.groupId);
       }
+
+      const actions = {
+        payload: groupRequest,
+        success: this.onSuccess,
+        failure: this.onFailure,
+      };
+      if (this.isUpdate) 
+        this.UPDATE_GROUP(actions);
+      else
+        this.ADD_GROUP(actions);
     },
     onSuccess(id) {
       console.log(id, ":id")
       this.$router.push("/group/"+id)
     },
-    ...mapActions(useAppStore, ["GET_ALL_USERS", "ADD_GROUP"]),
+    onFailure() {
+      this.errorMessage = true
+    },
+    successFetch(){
+      this.groupName = this.groupDetails.groupName;
+      this.addedUsers = this.groupDetails.memberPresent.map((member) => member.userName);
+    },
+    onSuccessUsers() {
+      this.addedUsers.push(this.getUserNameByID(localStorage.getItem("userId")))
+    },
+    ...mapActions(useAppStore, ["GET_ALL_USERS", "ADD_GROUP", "UPDATE_GROUP", "GET_GROUP_DETAILS"]),
   },
   created() {
-    this.GET_ALL_USERS();
+    this.GET_ALL_USERS(this.onSuccessUsers);
+
   },
+  mounted() {
+    
+    if (this.isUpdate) {
+      this.GET_GROUP_DETAILS(this.$route.params.group_id, this.successFetch);  
+    }
+  }
 };

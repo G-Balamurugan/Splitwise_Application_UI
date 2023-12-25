@@ -66,6 +66,16 @@ const url = local
     });
   };
 
+  const getGroupDetails = (groupId) => {
+    return fetch(url+":8081/httpmethod/group-details/" + groupId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+    });
+  };
+
   const getGroupMembers = (groupId) => {
     return fetch(url+":8081/httpmethod/group-member/" + groupId, {
       method: "GET",
@@ -108,6 +118,16 @@ const url = local
     });
   };
   
+  const updateGroup = (groupDetails, id) => {
+    return fetch(url+":8081/httpmethod/update/group/" + id, {
+      method: "PUT",
+      body: JSON.stringify(groupDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+    });
+  };
   export default {
     login,
     getAllUsers,
@@ -119,5 +139,7 @@ const url = local
     payExpense,
     getAllExpensesByCategory,
     getNotifications,
+    getGroupDetails,
+    updateGroup,
   };
   

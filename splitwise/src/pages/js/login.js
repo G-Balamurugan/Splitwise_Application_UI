@@ -51,14 +51,14 @@ export default {
         console.log(userId, " user id")
         this.GET_NOTIFICATION(userId);
       },
-      navigatePage(){
-        if (this.loginStatus === "success") {
-          console.log("User logged in successfully!");
-          this.$router.push("/")
-        } else {
-          console.log("Login failed.");
-        }    
-      },
+      // navigatePage(){
+      //   if (this.loginStatus === "success") {
+      //     console.log("User logged in successfully!");
+      //     this.$router.push("/")
+      //   } else {
+      //     console.log("Login failed.");
+      //   }    
+      // },
       ...mapActions(useAppStore, ["LOGIN", "GET_NOTIFICATION"]),
     },
     

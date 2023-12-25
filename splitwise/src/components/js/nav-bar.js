@@ -10,15 +10,10 @@ export default {
   },
   methods: {
     openNotifications() {
-      console.log("open");
       this.toggleNotification();
-    //   this.setNotificationTrue();
-      console.log(this.showNotification)
     },
     closeNotifications() {
-      console.log("close");
       this.setNotificationFalse();
-    //   this.setNotificationFalse();
     },
     handleDocumentClick(event) {
       const notificationComponent = this.$refs.notificationComponent;
@@ -37,7 +32,13 @@ export default {
       this.loginStatus = "";
       this.logoutUser();
       console.log(this.loginStatus);
+      this.closeNotifications();
+      // this.setNotificationFalse();
       localStorage.clear();
+    },
+
+    handleWindowResize() {
+      this.isLargeScreen = window.innerWidth > 1250;
     },
     ...mapActions(useAppStore, [
       "logoutUser",
@@ -49,7 +50,7 @@ export default {
   },
   data() {
     return {
-      //   showNotifications: false,
+      isLargeScreen: window.innerWidth >= 1250,
     };
   },
   computed: {
@@ -59,11 +60,26 @@ export default {
       "showNotification",
     ]),
     isLoginPage() {
+      console.log(this.$route.params.group_id)
       return this.$route.name != "login";
     },
+    isGroupPage() {
+      return this.$route.name == "group-page" ;
+    },
+    isListPage() {
+      console.log(this.$route.params.group_id)
+      return !this.$route.params.group_id
+    }
+
   },
   mounted() {
     const userId = localStorage.getItem("userId");
     this.GET_NOTIFICATION(userId);
+  },
+  created() {
+    window.addEventListener("resize", this.handleWindowResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleWindowResize);
   },
 };

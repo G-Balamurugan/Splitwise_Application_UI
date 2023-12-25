@@ -1,39 +1,77 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12" sm="6" md="4">
+  <div class="right-column">
+    <v-row v-if="!$route.params.group_id" justify="center">
+      <h3>Select a group to view its expenses</h3>
+    </v-row>
+
+    <v-row
+      v-if="$route.params.group_id"
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+      "
+    >
+      <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
         <v-text-field
+          style=" color:black height: 50px;"
           v-model="search"
           label="Search"
           @keyup.enter="searchByCategory"
           outlined
         ></v-text-field>
       </v-col>
-      <v-col justify="end" style="margin: 20px; text-align: end">
+      <v-col>
+        <v-icon @click="showGroupInfo">mdi-information</v-icon>
+        <GroupInfo
+          v-if="showInfo"
+          :groupDetail="groupDetails"
+          @closeGroupInfo="closeGroupInfo"
+        />
+      </v-col>
+      <v-col justify="end" style="text-align: end">
         <v-btn @click="createExpense">Create Expense</v-btn>
       </v-col>
     </v-row>
 
-    <v-row v-if="expenses.length == 0" justify="center">
+    <v-row
+      v-if="expenses.length == 0 && $route.params.group_id"
+      justify="center"
+    >
       <h3>Initiate a fresh start by creating a new expense</h3>
     </v-row>
-    <v-row v-if="expenses.length > 0">
+    <v-row
+      v-if="expenses.length > 0 && $route.params.group_id"
+      style="
+        display: flex;
+        flex-direction: row;
+        /* justify-content: center; */
+        /* align-items: center; */
+        height: calc(100vh - 150px);
+        overflow-y: auto;
+      "
+    >
       <v-col
         v-for="(expense, index) in expenses"
         :key="index"
         cols="12"
-        sm="12"
-        md="9"
-        lg="4"
-        xl="6"
+        sm="6"
+        md="4"
+        lg="3"
+        xl="2"
       >
-        <v-card>
+        <v-card
+          class="grp-card"
+          style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8)"
+        >
           <v-col class="group-card">
             <v-card-title class="group-card-title">{{
               expense.note
             }}</v-card-title>
             <v-card-subtitle class="group-card-head-subtitle"
-              >₹ {{ expense.totalAmount }}</v-card-subtitle
+              >Total: ₹ {{ expense.totalAmount.toFixed(2) }}</v-card-subtitle
             >
           </v-col>
           <v-col style="width: 100%; display: flex; padding-bottom: 0px">
@@ -48,50 +86,55 @@
           </v-col>
 
           <v-list style="height: 130px">
-            <v-list-item-group>
-              <v-list-item
-                v-for="(user, userIndex) in expense.userList"
-                :key="userIndex"
+            <v-list-item
+              v-for="(user, userIndex) in expense.userList"
+              :key="userIndex"
+            >
+              <v-list-item-content
+                style="display: flex; width: 100%; padding: 0px 10px"
               >
-                <v-list-item-content
-                  style="display: flex; width: 100%; padding: 0px 10px"
+                <v-list-item-title
+                  style="display: flex; justify-content: start; width: 50%"
                 >
-                  <v-list-item-title
-                    style="display: flex; justify-content: start; width: 50%"
-                    >{{ getUserById(user.userId) }}
-                  </v-list-item-title>
-                  <v-list-item-title
-                    style="display: flex; justify-content: end; width: 50%"
-                  >
-                    ₹ {{ user.splitAmount }}
-                  </v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle
-                    v-if="user.payed"
-                    style="
-                      margin: 0px 10px;
-                      background-color: green;
-                      display: inline;
-                      color: #fff;
-                      padding: 2px;
-                    "
-                    >Paid</v-list-item-subtitle
-                  >
-                  <v-list-item-subtitle
-                    v-else
-                    style="
-                      margin: 0px 10px;
-                      background-color: red;
-                      display: inline;
-                      color: #fff;
-                      padding: 2px;
-                    "
-                    >Not Paid</v-list-item-subtitle
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
+                  {{ getUserById(user.userId) }}
+                </v-list-item-title>
+                <v-list-item-title
+                  style="display: flex; justify-content: end; width: 50%"
+                >
+                  ₹ {{ user.splitAmount.toFixed(2) }}
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-content>
+                <v-list-item-subtitle
+                  v-if="user.payed"
+                  style="
+                    margin: 0px 10px;
+                    background-color: green;
+                    border-radius: 10px;
+                    font-size: 10px;
+                    display: inline;
+                    color: #fff;
+                    padding: 5px;
+                  "
+                >
+                  Paid
+                </v-list-item-subtitle>
+                <v-list-item-subtitle
+                  v-else
+                  style="
+                    margin: 0px 10px;
+                    background-color: #ff3333;
+                    border-radius: 10px;
+                    font-size: 10px;
+                    display: inline;
+                    color: #fff;
+                    padding: 5px;
+                  "
+                >
+                  Not Paid
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
 
           <v-card-subtitle style="display: flex; justify-content: end">
@@ -101,7 +144,10 @@
             Users Paid
           </v-card-subtitle>
 
-          <v-card-actions v-if="isUserAvailableInList(expense)" style="justify-content: end; width: 100%">
+          <v-card-actions
+            v-if="isUserAvailableInList(expense)"
+            style="justify-content: end; width: 100%"
+          >
             <v-btn
               @click="payExpense(expense.expenseId)"
               :disabled="hasUserPaid(expense)"
@@ -113,35 +159,58 @@
               {{ hasUserPaid(expense) ? "Paid" : "Pay" }}
             </v-btn>
           </v-card-actions>
-          <v-card-actions v-if="!isUserAvailableInList(expense)" style="justify-content: center; width: 100%">
-          <p>
-              *User not available in the list*
-            </p>
- </v-card-actions>
+          <v-card-actions
+            v-if="!isUserAvailableInList(expense)"
+            style="justify-content: center; width: 100%"
+          >
+            <p>*No payment required*</p>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script src="./js/group-page.js"></script>
 
 <style scoped>
+.right-column {
+  width: 73%;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1250px) {
+  .right-column {
+    width: 100%;
+  }
+}
+
+.v-row {
+  flex: none;
+}
+
+.grp-card {
+  border-radius: 0px 25px;
+}
 .group-card {
-  background-color: #528bd0;
+  background-color: #5c8374;
   margin-bottom: 10px;
   width: 100%;
   display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 .group-card-title {
-  width: 50%;
+  width: 92%;
   display: flex;
   justify-content: start;
   height: 50px;
 }
 
 .group-card-head-subtitle {
-  width: 50%;
+  /* width: 50%; */
   display: flex;
   justify-content: end;
   align-items: center;

@@ -53,7 +53,7 @@
 
 <style scoped>
 body {
-    background-color: green; /* Light gray background color for the entire page */
+    background-color: green; 
   }
 
   .login-container {
@@ -98,7 +98,6 @@ body {
     color: red;
     text-align: center;
     opacity: 1;
-    /* transition: opacity 5s ease; Transition from 0.5 to 1 opacity in 5 seconds */
   }
 
 

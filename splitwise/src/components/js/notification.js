@@ -9,21 +9,21 @@ export default {
     },
     methods: {
       formatCreatedDate(createdDate) {
-        const date = new Date(createdDate); //need change
-        console.log(createdDate)
-        return date.toLocaleString();
+        const date = new Date(createdDate);
+        const today = new Date();
+        if (date.toDateString() === today.toDateString()) {
+          return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else {
+          return date.toLocaleDateString();
+        }
       },
       notificationClick(groupId) {
         console.log("group");
         this.$router.push("/group/" + groupId);
       },
-    //   closeNotificationOnClickOutside(event) {
-    //     const container = this.$refs.notificationContainer;
-    //     if (container && !container.contains(event.target) && this.showNotification) {
-    //         console.log("close")
-    //       this.$emit("closeNotification"); 
-    //     }
-    //   },
+      closeNotification() {
+          this.$emit("closeNotification"); 
+      },
     },
     computed: {
       ...mapState(useAppStore, ["notifications"]),

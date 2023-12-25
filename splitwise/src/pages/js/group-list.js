@@ -4,20 +4,7 @@ import { mapState, mapActions } from "pinia";
 export default {
   data() {
     return {
-      // groups: [
-      //   {
-      //     groupId: 1,
-      //     groupName: "Tour",
-      //     createdBy: 1,
-      //     memberPresent: null,
-      //   },
-      //   {
-      //     groupId: 2,
-      //     groupName: "Plan",
-      //     createdBy: 2,
-      //     memberPresent: null,
-      //   },
-      // ],
+      isLargeScreen: window.innerWidth >= 1250,
     };
   },
   methods: {
@@ -25,9 +12,9 @@ export default {
       console.log("Creating a new group");
       this.$router.push("/add-group");
     },
-    editGroup(group) {
-      console.log("Editing group:", group);
-      // this.$router.push("/edit-group");
+    editGroup(groupId) {
+      console.log("Editing group:", groupId);
+      this.$router.push("/update-group/" + groupId);
     },
     getFirstLetter(text) {
       return text.charAt(0).toUpperCase();
@@ -35,12 +22,22 @@ export default {
     navigateToGroup(groupId) {
       this.$router.push("/group/" + groupId);
     },
+    handleWindowResize() {
+      this.isLargeScreen = window.innerWidth > 1250;
+    },
     ...mapActions(useAppStore, ["GET_ALL_GROUP"]),
   },
   computed: {
     ...mapState(useAppStore, ["groups"]),
+    isHomePath() {
+      return this.$route.path === '/' && !this.isLargeScreen;
+    },
   },
   created() {
+    window.addEventListener("resize", this.handleWindowResize);
     this.GET_ALL_GROUP();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleWindowResize);
   },
 };

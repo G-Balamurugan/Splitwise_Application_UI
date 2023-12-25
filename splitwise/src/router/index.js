@@ -22,17 +22,29 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: "/update-group/:group_id",
+      name: "update-group",
+      component: addGroup,
+      meta: { requiresAuth: true },
+    },
+    {
       path: "/add-expense/:group_id",
       name: "add-expense",
       component: addExpense,
       meta: { requiresAuth: true },
     },
     {
-      path: "/group/:group_id",
+      path: "/group/:group_id?",
       name: "group-page",
       component: groupPage,
       meta: { requiresAuth: true },
     },
+    // {
+    //   path: "/group/",
+    //   name: "group-page",
+    //   component: groupPage,
+    //   meta: { requiresAuth: true },
+    // },
     {
       path: "/login",
       name: "login",

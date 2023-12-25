@@ -13,6 +13,7 @@ export const useAppStore = defineStore('app', {
     loginStatus: "",
     notifications: [],
     showNotification: false,
+    // groupDetails: {},
   }),
   actions: {
     logoutUser() {
@@ -48,16 +49,16 @@ export const useAppStore = defineStore('app', {
         console.error("Error in LOGIN action:", error);
       }
     },
-    async GET_ALL_USERS() {
+    async GET_ALL_USERS(success) {
       try {
         const userResponse = await services.getAllUsers();
         const data = await userResponse.json();
-        console.log(userResponse);
+        
         this.users = data;
         this.usernames = this.users.map(user => user.userName);
-        console.log(this.usernames)
+        
         if (userResponse.status == 200) {
-          console.log("Fetched data: ", this.users); // data -> status pass/fails
+          success()
         } else {
           console.log("Error in fetch");
         }
@@ -72,7 +73,7 @@ export const useAppStore = defineStore('app', {
         console.log(groupResponse);
         this.groups = data;
         if (groupResponse.status == 200) {
-          console.log("Fetched data: ", this.groups); // data -> status pass/fails
+          
         } else {
           console.log("Error in fetch");
         }
@@ -87,7 +88,7 @@ export const useAppStore = defineStore('app', {
         console.log(expenseResponse);
         this.expenses = data;
         if (expenseResponse.status == 200) {
-          console.log("Fetched data: ", this.expenses); // data -> status pass/fails
+          
         } else {
           console.log("Error in fetch");
         }
@@ -102,7 +103,7 @@ export const useAppStore = defineStore('app', {
         console.log(expenseResponse);
         this.expenses = data;
         if (expenseResponse.status == 200) {
-          console.log("Fetched data: ", this.expenses); // data -> status pass/fails
+          
         } else {
           console.log("Error in fetch");
         }
@@ -114,11 +115,28 @@ export const useAppStore = defineStore('app', {
       try {
         const notificationResponse = await services.getNotifications(userId);
         const data = await notificationResponse.json();
-        console.log(notificationResponse);
+        
         this.notifications = data;
         this.notificationCount = this.notifications.length;
         if (notificationResponse.status == 200) {
-          console.log("Fetched notification: ", this.notifications); // data -> status pass/fails
+          
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+    async GET_GROUP_DETAILS(groupId, success) {
+      try {
+        const groupResponse = await services.getGroupDetails(groupId);
+        const data = await groupResponse.json();
+        console.log(groupResponse);
+        this.groupDetails = data;
+        if (groupResponse.status == 200) {
+          this.groupDetails = data;
+          console.log(this.data)
+          success(); // data -> status pass/fails
         } else {
           console.log("Error in fetch");
         }
@@ -133,7 +151,7 @@ export const useAppStore = defineStore('app', {
         console.log(memberResponse);
         this.users = data;
         if (memberResponse.status == 200) {
-          console.log("Fetched data: ", this.users); // data -> status pass/fails
+          
         } else {
           console.log("Error in fetch");
         }
@@ -146,30 +164,45 @@ export const useAppStore = defineStore('app', {
       const createExpenseResponse = await services.addExpense(payload)
       const data = await createExpenseResponse.json();
       if(createExpenseResponse.status === 200){
-        console.log("Fetched expense: ", data);
+        
         success()
       }
       else
         console.log("Error fetching expense")
     },
-    async ADD_GROUP({payload, success}){
+    async ADD_GROUP({payload, success, failure}){
       const createGroupResponse = await services.addGroup(payload, localStorage.getItem('userId'))
       const data = await createGroupResponse.json();
-      if(createGroupResponse.status === 200){
-        console.log("User logged in: ", data);
+      if(createGroupResponse.status === 200 && data.id != 0 ){
+        
         this.groupCreationStatus = "success";
         success(data.id)
       }
       else{
         console.log("Invaild user credentials")
         this.groupCreationStatus = "failed";
+        failure()
+      }
+    },
+    async UPDATE_GROUP({payload, success, failure}){
+      const updateGroupResponse = await services.updateGroup(payload, localStorage.getItem('userId'))
+      const data = await updateGroupResponse.json();
+      if(updateGroupResponse.status === 200 && data.id != 0 ){
+        
+        this.groupCreationStatus = "success";
+        success(data.id)
+      }
+      else{
+        
+        this.groupCreationStatus = "failed";
+        failure()
       }
     },
     async PAY_EXPENSE(expenseId, userId, groupId){
       const payExpenseResponse = await services.payExpense(expenseId, userId)
       const data = await payExpenseResponse.json();
       if(payExpenseResponse.status === 200){
-        console.log("Fetched expense: ", data);
+        c
         this.GET_ALL_EXPENSES(groupId);
       }
       else

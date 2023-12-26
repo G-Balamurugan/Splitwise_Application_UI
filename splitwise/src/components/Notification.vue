@@ -1,14 +1,14 @@
 <template>
   <div v-if="notifications.length > 0" ref="notificationContainer" class="notification-container">
-    <div  class="close-button"> <!-- Added class to the button -->
-      <i @click="closeNotification" class="mdi mdi-close "></i> <!-- Close icon, you can replace it with your preferred icon -->
+    <div  class="close-button"> 
+      <i @click="closeNotification" class="mdi mdi-close "></i>
     </div>
     
     <div
       v-for="(notification, index) in notifications"
       :key="index"
       class="notification-item"
-      @click="notificationClick(notification.groupId)"
+      @click="notificationClick(notification.groupId, notification.notificationId)"
     >
       <div class="notification-message">{{ notification.information }}</div>
       <div class="notification-date">

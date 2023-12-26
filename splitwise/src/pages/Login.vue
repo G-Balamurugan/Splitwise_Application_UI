@@ -11,7 +11,6 @@
           <v-card-title class="text-center" style="margin: 20px 0px;">Login</v-card-title>
           <v-card-text >
             <v-form @submit.prevent="login" ref="form" class="form-class">
-              <!-- Phone Number Input with Icon -->
               <v-text-field
                 v-model="phoneNumber"
                 label="Phone Number"
@@ -23,7 +22,6 @@
                 prepend-icon="mdi-phone"
               ></v-text-field>
 
-              <!-- Password Input with Icon -->
               <v-text-field
                 v-model="password"
                 label="Password"

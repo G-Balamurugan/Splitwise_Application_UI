@@ -1,7 +1,7 @@
 const local = "http://localhost"  
 const net = "http://10.30.1.178"
 
-const url = local
+const url = net
 
   const login = (loginDetails) => {
     return fetch(url+":8081/httpmethod/login", {
@@ -45,8 +45,8 @@ const url = local
   };
   
   const getAllExpensesByCategory = (groupId, category) => {
-    const url = `http://localhost:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
-    // const url = `http://10.30.1.178:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
+    // const url = `http://localhost:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
+    const url = `http://10.30.1.178:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
     return fetch(url, {
       method: "GET",
       headers: {
@@ -128,6 +128,17 @@ const url = local
     });
   };
 
+  const readNotification = (notificationId) => {
+    return fetch(url+":8085/httpmethod/notify-read/"+notificationId, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+    });
+  };
+  
+
   const addGroup = (groupDetails, id) => {
     return fetch(url+":8081/httpmethod/add/group/" + id, {
       method: "POST",
@@ -164,5 +175,6 @@ const url = local
     updateGroup,
     getGroupReport,
     getCategoryReport,
+    readNotification,
   };
   

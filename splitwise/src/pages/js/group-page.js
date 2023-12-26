@@ -8,6 +8,7 @@ export default {
       search: "",
       showInfo: false,
       groupDetail: {},
+      groupId: "",
     };
   },
   components: {
@@ -21,11 +22,11 @@ export default {
       this.showInfo = false;
     },
     createExpense() {
-      this.$router.push("/add-expense/" + this.$route.params.group_id);
+      this.$router.push("/add-expense/" + this.groupId);
     },
     payExpense(expenseId) {
       const userId = localStorage.getItem("userId");
-      this.PAY_EXPENSE(expenseId, userId, this.$route.params.group_id);
+      this.PAY_EXPENSE(expenseId, userId, this.groupId);
     },
 
     hasUserPaid(expense) {
@@ -47,7 +48,7 @@ export default {
       return user ? user.userName : "Unknown User";
     },
     searchByCategory() {
-      this.GET_EXPENSES_BY_CATEGORY(this.$route.params.group_id, this.search);
+      this.GET_EXPENSES_BY_CATEGORY(this.groupId, this.search);
     },
     onSuccessUsers() {
     },
@@ -70,7 +71,7 @@ export default {
       if (newGroupId) {
         this.GET_ALL_EXPENSES(newGroupId);
         this.GET_ALL_USERS(this.onSuccessUsers);
-        this.GET_GROUP_DETAILS(this.$route.params.group_id, this.successFetch);  
+        this.GET_GROUP_DETAILS(newGroupId, this.successFetch);  
       }
     },
     $route(to, from) {
@@ -81,10 +82,11 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.group_id) {
-      this.GET_ALL_EXPENSES(this.$route.params.group_id);
-      this.GET_ALL_USERS(this.onSuccessUsers);
-      this.GET_GROUP_DETAILS(this.$route.params.group_id, this.successFetch);  
+    this.groupId = this.$route.params.group_id
+    if (this.groupId) {
+      this.GET_ALL_EXPENSES(this.groupId);
+      this.GET_ALL_USERS(this.groupId);
+      this.GET_GROUP_DETAILS(this.groupId);  
     }
   },
 

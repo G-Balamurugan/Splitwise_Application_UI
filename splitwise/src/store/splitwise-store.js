@@ -223,8 +223,16 @@ export const useAppStore = defineStore('app', {
       const payExpenseResponse = await services.payExpense(expenseId, userId)
       const data = await payExpenseResponse.json();
       if(payExpenseResponse.status === 200){
-        c
         this.GET_ALL_EXPENSES(groupId);
+      }
+      else
+        console.log("Error fetching expense")
+    },
+    async READ_NOTIFICATION(notificationId){
+      const notificationResponse = await services.readNotification(notificationId)
+      const data = await notificationResponse.json();
+      if(notificationResponse.status === 200){
+        this.GET_NOTIFICATION(localStorage.getItem("userId"));
       }
       else
         console.log("Error fetching expense")

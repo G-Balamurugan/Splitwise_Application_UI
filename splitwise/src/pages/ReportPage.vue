@@ -40,11 +40,11 @@
 }
 
 .need-to-receive {
-  background-color: #ff3333;
+  background-color: green;
 }
 
 .need-to-pay {
-  background-color: green;
+  background-color: #ff3333;
 }
 
 .total {

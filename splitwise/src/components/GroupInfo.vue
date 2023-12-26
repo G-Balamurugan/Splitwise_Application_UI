@@ -9,9 +9,9 @@
         <div v-if="groupDetail.memberPresent.length > 0">
           <div v-for="member in groupDetail.memberPresent" :key="member.id">
             <div>
-              <strong>{{ member.userName }}</strong>
+              {{ member.userName }}
             </div>
-            <div>{{ member.email }} | {{ member.address }}</div>
+            <!-- <div>{{ member.email }} | {{ member.address }}</div> -->
           </div>
         </div>
 

@@ -1,12 +1,15 @@
 <template>
   <div class="right-column">
-    <v-row v-if="!$route.params.group_id" justify="center"
-    style="align-items: center; height: calc(100vh - 150px);">
+    <v-row
+      v-if="!groupId"
+      justify="center"
+      style="align-items: center; height: calc(100vh - 150px)"
+    >
       <h3>Select a group to view its expenses</h3>
     </v-row>
 
     <v-row
-      v-if="$route.params.group_id"
+      v-if="groupId"
       style="
         display: flex;
         flex-direction: row;
@@ -21,7 +24,6 @@
           v-model="search"
           label="Search"
           @keyup.enter="searchByCategory"
-          outlined
         ></v-text-field>
       </v-col>
       <v-col style="font-size: 24px"
@@ -41,14 +43,14 @@
     </v-row>
 
     <v-row
-      v-if="expenses.length == 0 && $route.params.group_id"
+      v-if="expenses.length == 0 && groupId"
       justify="center"
-      style="align-items: center; height: calc(100vh - 150px);"
+      style="align-items: center; height: calc(100vh - 150px)"
     >
       <h3>Initiate a fresh start by creating a new expense</h3>
     </v-row>
     <v-row
-      v-if="expenses.length > 0 && $route.params.group_id"
+      v-if="expenses.length > 0 && groupId"
       class="expense-container"
     >
       <v-col
@@ -105,29 +107,13 @@
               <v-list-item-content>
                 <v-list-item-subtitle
                   v-if="user.payed"
-                  style="
-                    margin: 0px 10px;
-                    background-color: green;
-                    border-radius: 10px;
-                    font-size: 10px;
-                    display: inline;
-                    color: #fff;
-                    padding: 5px;
-                  "
+                  class="paid-badge badge"
                 >
                   Paid
                 </v-list-item-subtitle>
                 <v-list-item-subtitle
                   v-else
-                  style="
-                    margin: 0px 10px;
-                    background-color: #ff3333;
-                    border-radius: 10px;
-                    font-size: 10px;
-                    display: inline;
-                    color: #fff;
-                    padding: 5px;
-                  "
+                  class="unpaid-badge badge"
                 >
                   Not Paid
                 </v-list-item-subtitle>
@@ -231,4 +217,22 @@
   }
 }
 
+.badge {
+  margin: 0px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+  display: inline;
+  color: #fff;
+  padding: 5px;
+}
+
+.paid-badge {
+  background-color: green;
+}
+
+.unpaid-badge {
+  background-color: #ff3333;
+}
+
 </style>
+

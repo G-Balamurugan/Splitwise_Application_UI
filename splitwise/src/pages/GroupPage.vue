@@ -1,6 +1,7 @@
 <template>
   <div class="right-column">
-    <v-row v-if="!$route.params.group_id" justify="center">
+    <v-row v-if="!$route.params.group_id" justify="center"
+    style="align-items: center; height: calc(100vh - 150px);">
       <h3>Select a group to view its expenses</h3>
     </v-row>
 
@@ -23,6 +24,9 @@
           outlined
         ></v-text-field>
       </v-col>
+      <v-col style="font-size: 24px"
+        ><strong>{{ groupDetail.groupName }}</strong></v-col
+      >
       <v-col>
         <v-icon @click="showGroupInfo">mdi-information</v-icon>
         <GroupInfo
@@ -39,19 +43,13 @@
     <v-row
       v-if="expenses.length == 0 && $route.params.group_id"
       justify="center"
+      style="align-items: center; height: calc(100vh - 150px);"
     >
       <h3>Initiate a fresh start by creating a new expense</h3>
     </v-row>
     <v-row
       v-if="expenses.length > 0 && $route.params.group_id"
-      style="
-        display: flex;
-        flex-direction: row;
-        /* justify-content: center; */
-        /* align-items: center; */
-        height: calc(100vh - 150px);
-        overflow-y: auto;
-      "
+      class="expense-container"
     >
       <v-col
         v-for="(expense, index) in expenses"
@@ -210,7 +208,6 @@
 }
 
 .group-card-head-subtitle {
-  /* width: 50%; */
   display: flex;
   justify-content: end;
   align-items: center;
@@ -220,4 +217,18 @@
   display: flex;
   justify-content: start;
 }
+
+.expense-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+@media (max-width: 850px) {
+  .expense-container {
+    margin-top: 150px;
+  }
+}
+
 </style>

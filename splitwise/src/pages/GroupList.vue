@@ -1,5 +1,5 @@
 <template>
-  <div class="left-column" :class="{ 'full-width': isHomePath}">
+  <div class="left-column" :class="{ 'full-width': isHomePath }">
     <v-row class="group-header">
       <v-col>
         <h2>Groups</h2>
@@ -14,14 +14,13 @@
         v-for="group in groups"
         :key="group.groupId"
         class="group-list"
-        :class="{ 'selected-group': group.groupId === $route.params.group_id }"
         cols="12"
       >
         <v-card class="group-card">
           <v-row
+            :class="{ 'selected-group': group.groupId == selectedGroup }"
             align="center"
             style="
-              width: 100%;
               height: 70px;
               padding: 0px 10px;
               display: flex;
@@ -47,6 +46,7 @@
             <v-icon
               style="
                 width: 30%;
+                padding: 0px 25px;
                 display: flex;
                 flex-direction: column;
                 justify-content: end;
@@ -86,6 +86,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #fff;
 }
 .group-card {
   transition: background-color 0.5s ease;
@@ -117,6 +118,6 @@
 }
 
 .selected-group {
-  background-color: red; 
+  background-color: #9ec8b9;
 }
 </style>

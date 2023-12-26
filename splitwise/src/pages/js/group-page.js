@@ -70,11 +70,15 @@ export default {
       if (newGroupId) {
         this.GET_ALL_EXPENSES(newGroupId);
         this.GET_ALL_USERS(this.onSuccessUsers);
+        this.GET_GROUP_DETAILS(this.$route.params.group_id, this.successFetch);  
       }
     },
     $route(to, from) {
         this.closeGroupInfo();
     },
+    groupDetails (newValue) {
+      this.groupDetail = newValue
+    }
   },
   created() {
     if (this.$route.params.group_id) {

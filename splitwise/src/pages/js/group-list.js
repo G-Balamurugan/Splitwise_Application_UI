@@ -5,6 +5,7 @@ export default {
   data() {
     return {
       isLargeScreen: window.innerWidth >= 1250,
+      selectedGroup: "",
     };
   },
   methods: {
@@ -25,13 +26,21 @@ export default {
     },
     ...mapActions(useAppStore, ["GET_ALL_GROUP"]),
   },
+  watch: {
+    "$route.params.group_id"(newGroupId) {
+      if (newGroupId) {
+        this.selectedGroup = newGroupId;
+      }
+    },
+  },
   computed: {
     ...mapState(useAppStore, ["groups"]),
     isHomePath() {
-      return this.$route.path === '/' && !this.isLargeScreen;
+      return this.$route.path === "/" && !this.isLargeScreen;
     },
   },
   created() {
+    this.selectedGroup = this.$route.params.group_id;
     window.addEventListener("resize", this.handleWindowResize);
     this.GET_ALL_GROUP();
   },

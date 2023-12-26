@@ -19,9 +19,6 @@ export const useAppStore = defineStore('app', {
     // groupDetails: {},
   }),
   actions: {
-    logoutUser() {
-      this.loginStatus = ""
-    },
     setNotificationTrue() {
       this.showNotification = true;
     },
@@ -48,6 +45,23 @@ export const useAppStore = defineStore('app', {
         }
       } catch (error) {
         console.error("Error in LOGIN action:", error);
+      }
+    },
+    async LOGOUT(logoutDetails) {
+      const payload = logoutDetails.payload;
+
+      try {
+        const logoutResponse = await services.logout(payload);
+        const data = await logoutResponse.json();
+        localStorage.clear()
+        if (data.status == "Logout Successful") {
+          
+        } else {
+          console.log("Logout Unsuccessful");
+          this.loginStatus = "failed" 
+        }
+      } catch (error) {
+        console.error("Error in LOGOUT action:", error);
       }
     },
     async GET_ALL_USERS(success) {

@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     formIsValid() {
-      return this.groupName && this.addedUsers.length>=2;
+      return this.groupName && this.addedUsers.length>=1;
     },
     isUpdate() {
       return this.$route.params.group_id != undefined;

@@ -21,16 +21,24 @@ export default {
     logout() {
       this.showNavbar = false;
       this.loginStatus = "";
-      this.logoutUser();
+      this.logout();
       this.closeNotifications();
       localStorage.clear();
     },
-
+    logout() {
+        const loginRequest = {
+          userId: localStorage.getItem("userId"),
+        };
+        const actions = {
+          payload: loginRequest,
+        };
+        this.LOGOUT(actions);
+  },
     handleWindowResize() {
       this.isLargeScreen = window.innerWidth > 1250;
     },
     ...mapActions(useAppStore, [
-      "logoutUser",
+      "LOGOUT",
       "GET_NOTIFICATION",
       "setNotificationTrue",
       "setNotificationFalse",

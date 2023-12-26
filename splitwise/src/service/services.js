@@ -13,6 +13,17 @@ const url = net
       mode: "cors",
     });
   };
+
+  const logout = (logoutDetails) => {
+    return fetch(url+":8081/httpmethod/logout", {
+      method: "POST",
+      body: JSON.stringify(logoutDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+    });
+  };
   
   const getAllGroups = (userId) => {
     return fetch(url+":8081/httpmethod/group-list/" + userId, {
@@ -176,5 +187,6 @@ const url = net
     getGroupReport,
     getCategoryReport,
     readNotification,
+    logout,
   };
   

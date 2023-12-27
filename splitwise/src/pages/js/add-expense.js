@@ -121,9 +121,10 @@ export default {
         return user ? equalPercentage.toFixed(2) : "";
       });
     },
-    ...mapActions(useAppStore, ["ADD_EXPENSE", "GET_GROUP_MEMBERS"]),
+    ...mapActions(useAppStore, ["ADD_EXPENSE", "GET_GROUP_MEMBERS", "GET_CATEGORY_LIST"]),
   },
   created() {
     this.GET_GROUP_MEMBERS(this.$route.params.group_id);
+    this.GET_CATEGORY_LIST()
   },
 };

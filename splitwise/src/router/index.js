@@ -5,6 +5,7 @@ import addExpense from '../pages/AddExpense.vue';
 import groupPage from '../pages/GroupPage.vue';
 import login from '../pages/Login.vue';
 import reportPage from '../pages/ReportPage.vue';
+import notfound from '../pages/notFound.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -49,7 +50,11 @@ const router = createRouter({
       name: "report-page",
       component: reportPage,
       meta: { requiresAuth: true },
-    }
+    },
+    {
+      path: '/:catchAll(.*)',
+      component: notfound,
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

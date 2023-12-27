@@ -18,7 +18,8 @@ export const useAppStore = defineStore("app", {
     currentUserName: "",
     currentUserId: localStorage.getItem("userId"),
     currencies: ["USD", "EURO", "INR"],
-    categories: ["Food", "Transportation", "Accommodation", "Others"],
+    categories: [],
+    // categories: ["Food", "Transportation", "Accommodation", "Others"],
     // groupDetails: {},
   }),
   actions: {
@@ -31,6 +32,7 @@ export const useAppStore = defineStore("app", {
     toggleNotification() {
       this.showNotification = !this.showNotification;
     },
+
     async LOGIN(loginDetails) {
       const payload = loginDetails.payload;
 
@@ -120,11 +122,25 @@ export const useAppStore = defineStore("app", {
         console.error("Error in fetch:", error);
       }
     },
-    async GET_GROUP_BY_NAME() {
+
+    async GET_CATEGORY_LIST() {
       try {
-        const groupResponse = await services.getGroupByName(
-          localStorage.getItem("userId")
-        );
+        const categoryResponse = await services.getCategoryList();
+        const data = await categoryResponse.json();
+        this.categories = data.categoryList;
+        console.log(this.categories)
+        if (categoryResponse.status == 200) {
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+
+    async GET_GROUP_BY_NAME(name) {
+      try {
+        const groupResponse = await services.getGroupByName(name);
         const data = await groupResponse.json();
         this.groups = data;
         if (groupResponse.status == 200) {

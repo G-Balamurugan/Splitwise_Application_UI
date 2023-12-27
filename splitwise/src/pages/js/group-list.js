@@ -1,14 +1,24 @@
 import { useAppStore } from "../../store/splitwise-store";
 import { mapState, mapActions } from "pinia";
+// import notfound from '@/assets/notfound.gif';
+
 
 export default {
   data() {
     return {
       isLargeScreen: window.innerWidth >= 1250,
       selectedGroup: "",
+      search: "",
+      // notfound: notfound,
     };
   },
   methods: {
+    searchByName() {
+      if(this.search != "")
+        this.GET_GROUP_BY_NAME(this.search);
+      else
+        this.GET_ALL_GROUP();
+    },
     createGroup() {
       this.$router.push("/add-group");
     },
@@ -16,7 +26,8 @@ export default {
       this.$router.push("/update-group/" + groupId);
     },
     getFirstLetter(text) {
-      return text.charAt(0).toUpperCase();
+      if(text)
+        return text.charAt(0).toUpperCase();
     },
     navigateToGroup(groupId) {
       this.$router.push("/group/" + groupId);
@@ -28,7 +39,7 @@ export default {
       const localStorageUserId = localStorage.getItem('userId');
       return localStorageUserId == group.createdBy;
     },
-    ...mapActions(useAppStore, ["GET_ALL_GROUP"]),
+    ...mapActions(useAppStore, ["GET_ALL_GROUP", "GET_GROUP_BY_NAME"]),
   },
   watch: {
     "$route.params.group_id"(newGroupId) {

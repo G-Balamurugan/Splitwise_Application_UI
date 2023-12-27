@@ -9,16 +9,46 @@
         'full-width-left': !isOnlyHomePath,
       }"
     >
-      <v-row class="group-header">
+    <v-row class="tab-header">
+        <!-- <v-col>
+          <v-tabs v-model="tab" background-color="#5c8374" light>
+            <v-tab :to="{ name: 'groups' }">Groups</v-tab>
+            <v-tab :to="{ name: 'users' }">Users</v-tab>
+          </v-tabs>
+        </v-col> -->
+      </v-row>
+      <v-row class="group-header" >
         <v-col>
-          <h2>Groups</h2>
+          <v-text-field
+            style=" color:black height: 50px;"
+            v-model="search"
+            label="Group"
+            @keyup.enter="searchByName"
+          ></v-text-field>
+          <!-- <h2>Groups</h2> -->
         </v-col>
-        <v-col style="text-align: end">
+        <v-col style="text-align: end; margin-bottom: 20px">
           <v-btn @click="createGroup">Create Group</v-btn>
         </v-col>
       </v-row>
 
-      <v-row class="group-row">
+      <v-row>
+      <v-row class="group-row" v-if="!groups.length">
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            height: 100%;
+            align-items: center;
+          "
+        >
+          <!-- <img src="@/assets/notfound.gif"/> -->
+          <p>No groups found</p>
+      </div>
+              
+      </v-row>
+      <v-row class="group-row" v-if="groups.length">
         <v-col
           v-for="group in groups"
           :key="group.groupId"
@@ -70,8 +100,11 @@
           </v-card>
         </v-col>
       </v-row>
+    </v-row>
     </div>
     <div v-if="isOnlyHomePath" class="select-grp">
+      <!-- <img src="@/assets/notfound.gif"/> -->
+
       Select a group to view its expense
     </div>
   </div>

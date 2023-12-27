@@ -55,6 +55,7 @@
       justify="center"
       style="align-items: center; height: calc(100vh - 150px)"
     >
+    <!-- <img src="@/assets/notfound.gif"/> -->
       <h3>Initiate a fresh start by creating a new expense</h3>
     </v-row>
     <v-row

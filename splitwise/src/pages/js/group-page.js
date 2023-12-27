@@ -67,6 +67,7 @@ export default {
       "GET_ALL_USERS",
       "GET_EXPENSES_BY_CATEGORY",
       "GET_GROUP_DETAILS",
+      "GET_CATEGORY_LIST"
     ]),
   },
   computed: {
@@ -82,6 +83,7 @@ export default {
         this.GET_ALL_EXPENSES(newGroupId);
         this.GET_ALL_USERS(this.onSuccessUsers);
         this.GET_GROUP_DETAILS(newGroupId, this.successFetch);  
+        this.GET_CATEGORY_LIST()
       }
     },
     $route(to, from) {
@@ -97,6 +99,7 @@ export default {
       this.GET_ALL_EXPENSES(this.groupId);
       this.GET_ALL_USERS(this.onSuccessUsers);
       this.GET_GROUP_DETAILS(this.groupId, this.successFetch);  
+      this.GET_CATEGORY_LIST()  
     }
   },
 

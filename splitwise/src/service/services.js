@@ -2,11 +2,11 @@ const local = "http://localhost"
 const net = "http://10.30.1.178"
 const gateway = "http://10.30.1.140"
 
-const url = gateway
+const url = net
 
-const groupService = url+":8088"    //8081
-const expenseService = url+":8088"    //8089
-const notificationService = url+":8088"   //8085
+const groupService = url+":8081"    //8081
+const expenseService = url+":8089"    //8089
+const notificationService = url+":8085"   //8085
 
 // const header = {
 //   "Content-Type": "application/json",
@@ -50,8 +50,19 @@ const notificationService = url+":8088"   //8085
     });
   };
 
-  const getGroupByName = (userId) => {
-    return fetch(groupService+"/httpmethod/group-list/" + userId, {     //8081  
+  const getCategoryList = () => {
+    return fetch(expenseService+"/httpmethod/category-list/" ,{     //8081  
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
+        "User-Id": localStorage.getItem("userId")
+      },
+      mode: "cors",
+    });
+  };
+  const getGroupByName = (name) => {
+    return fetch(groupService+"/httpmethod/filter-group/" + name, {     //8081  
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -243,5 +254,6 @@ const notificationService = url+":8088"   //8085
     readNotification,
     logout,
     getGroupByName,
+    getCategoryList,
   };
   

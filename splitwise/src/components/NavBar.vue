@@ -36,7 +36,7 @@
 
     <v-main class="content">
       <div class="container">
-        <group-list v-if="isGroupPage && isLargeScreen"></group-list>
+        <group-list-page v-if="isGroupPage || isUserPage && isLargeScreen"></group-list-page>
         <!-- <group-list v-if="isGroupPage && isLargeScreen"></group-list> -->
         <router-view></router-view>
       </div>
@@ -52,7 +52,7 @@
         <v-icon size="32">mdi-home</v-icon>
         <p class="nav-text">Home</p>
       </v-btn>
-      <v-btn to="/reports" text style="width: 50%">
+      <v-btn to="/reports" text style="width: 50%"> 
         <v-icon size="32">mdi-chart-bar</v-icon>
         <p class="nav-text">Reports</p>
       </v-btn>
@@ -102,7 +102,9 @@
 }
 
 @media screen and (max-width: 560px) {
-
+  .bottom-nav {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 775px) {

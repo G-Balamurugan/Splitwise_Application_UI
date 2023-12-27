@@ -19,6 +19,8 @@ export const useAppStore = defineStore("app", {
     currentUserId: localStorage.getItem("userId"),
     currencies: ["USD", "EURO", "INR"],
     categories: [],
+    userDetails: {},
+    userExpenses: [],
     // categories: ["Food", "Transportation", "Accommodation", "Others"],
     // groupDetails: {},
   }),
@@ -164,6 +166,21 @@ export const useAppStore = defineStore("app", {
         console.error("Error in fetch:", error);
       }
     },
+    // getExpensesByUser
+    async GET_EXPENSES_BY_USER(receiverId) {
+      try {
+        const expenseResponse = await services.getExpensesByUser(localStorage.getItem("userId"), receiverId);
+        const data = await expenseResponse.json();
+        this.userExpenses = data;
+        if (expenseResponse.status == 200) {
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+
     async GET_EXPENSES_BY_CATEGORY(groupId, category) {
       try {
         const expenseResponse = await services.getAllExpensesByCategory(
@@ -201,6 +218,21 @@ export const useAppStore = defineStore("app", {
         const data = await groupResponse.json();
         this.groupDetails = data;
         if (groupResponse.status == 200) {
+          this.groupDetails = data;
+          success();
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+    async GET_USER_DETAILS(userId, success) {
+      try {
+        const userResponse = await services.getUserDetails(userId);
+        const data = await userResponse.json();
+        this.userDetails = data;
+        if (userResponse.status == 200) {
           this.groupDetails = data;
           success();
         } else {
@@ -301,6 +333,13 @@ export const useAppStore = defineStore("app", {
       const data = await notificationResponse.json();
       if (notificationResponse.status === 200) {
         this.GET_NOTIFICATION(localStorage.getItem("userId"));
+      } else console.log("Error fetching expense");
+    },
+    async PAY_EXPENSE_USER(expenseId, userId, receiverId) {
+      const payExpenseResponse = await services.payExpenseUser(expenseId, userId);
+      const data = await payExpenseResponse.json();
+      if (payExpenseResponse.status === 200) {
+        this.GET_EXPENSES_BY_USER(receiverId);
       } else console.log("Error fetching expense");
     },
   },

@@ -2,7 +2,7 @@ const local = "http://localhost"
 const net = "http://10.30.1.178"
 const gateway = "http://10.30.1.140"
 
-const url = net
+const url = local
 
 const groupService = url+":8081"    //8081
 const expenseService = url+":8089"    //8089
@@ -85,6 +85,19 @@ const notificationService = url+":8085"   //8085
     });
   };
 
+  // http://localhost:8089/httpmethod/add/non-group-expense
+  const getExpensesByUser = (creatorId, receiverId) => {
+    return fetch(expenseService+"/httpmethod/non-group-expenses/" + creatorId + "/" + receiverId, {     //8089
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
+        "User-Id": localStorage.getItem("userId")
+      },
+      mode: "cors",
+    });
+  };
+
   const getNotifications = (userId) => {
     return fetch(notificationService+"/httpmethod/notify-list/" + userId, {     //8085
       method: "GET",
@@ -126,6 +139,19 @@ const notificationService = url+":8085"   //8085
 
   const getGroupDetails = (groupId) => {
     return fetch(groupService+"/httpmethod/group-details/" + groupId, {  //8081
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
+        "User-Id": localStorage.getItem("userId")
+      },
+      mode: "cors",
+    });
+  };
+
+  // http://localhost:8081/httpmethod/user-details/2
+  const getUserDetails = (userId) => {
+    return fetch(groupService+"/httpmethod/user-details/" + userId, {  //8081
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -198,6 +224,18 @@ const notificationService = url+":8085"   //8085
     });
   };
 
+  const payExpenseUser = (expenseId, userId) => {    //8089
+    return fetch(expenseService+"/httpmethod/non-group-pay/"+expenseId+"/"+userId, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
+        "User-Id": localStorage.getItem("userId")
+      },
+      mode: "cors",
+    });
+  };
+
   const readNotification = (notificationId) => {    //8085
     return fetch(notificationService+"/httpmethod/notify-read/"+notificationId, {
       method: "PUT",
@@ -255,5 +293,8 @@ const notificationService = url+":8085"   //8085
     logout,
     getGroupByName,
     getCategoryList,
+    getUserDetails,
+    getExpensesByUser,
+    payExpenseUser,
   };
   

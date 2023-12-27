@@ -1,11 +1,11 @@
-import GroupList from "@/pages/GroupList.vue";
+import GroupListPage from "@/pages/GroupListPage.vue";
 import { useAppStore } from "../../store/splitwise-store";
 import { mapActions, mapState } from "pinia";
 import Notification from "@/components/Notification.vue";
 
 export default {
   components: {
-    GroupList,
+    GroupListPage,
     Notification,
   },
   methods: {
@@ -72,6 +72,9 @@ export default {
     },
     isGroupPage() {
       return this.$route.name == "group-page";
+    },
+    isUserPage() {
+      return this.$route.name == "user-page";
     },
     isListPage() {
       return !this.$route.params.group_id;

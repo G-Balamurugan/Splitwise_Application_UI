@@ -1,15 +1,15 @@
 <template>
   <div class="right-column">
     <v-row
-      v-if="!groupId"
+      v-if="!userId"
       justify="center"
       style="align-items: center; height: calc(100vh - 200px)"
     >
-      <h3>Select a group to view its expenses</h3>
+      <h3>Select a user to view expenses</h3>
     </v-row>
 
     <v-row
-      v-if="groupId"
+      v-if="userId"
       style="
         display: flex;
         flex-direction: row;
@@ -18,7 +18,7 @@
         height: 100px;
       "
     >
-    <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
+      <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
         <v-select
           v-model="selectedCategory"
           :items="categories"
@@ -35,14 +35,14 @@
         ></v-text-field>
       </v-col> -->
       <v-col style="font-size: 24px"
-        ><strong>{{ groupDetail.groupName }}</strong></v-col
+        ><strong>{{ userDetail.userName }}</strong></v-col
       >
       <v-col>
-        <v-icon @click="showGroupInfo">mdi-information</v-icon>
-        <GroupInfo
+        <v-icon @click="showUserInfo">mdi-information</v-icon>
+        <UserInfo
           v-if="showInfo"
-          :groupDetail="groupDetails"
-          @closeGroupInfo="closeGroupInfo"
+          :groupDetail="userDetails"
+          @closeUserInfo="closeUserInfo"
         />
       </v-col>
       <v-col justify="end" style="text-align: end">
@@ -51,19 +51,16 @@
     </v-row>
 
     <v-row
-      v-if="expenses.length == 0 && groupId"
+      v-if="userExpenses.length == 0 && userId"
       justify="center"
       style="align-items: center; height: calc(100vh - 200px)"
     >
-    <!-- <img src="@/assets/notfound.gif"/> -->
+      <!-- <img src="@/assets/notfound.gif"/> -->
       <h3>Initiate a fresh start by creating a new expense</h3>
     </v-row>
-    <v-row
-      v-if="expenses.length > 0 && groupId"
-      class="expense-container"
-    >
+    <v-row v-if="userExpenses.length > 0 && userId" class="expense-container">
       <v-col
-        v-for="(expense, index) in expenses"
+        v-for="(expense, index) in userExpenses"
         :key="index"
         cols="12"
         sm="6"
@@ -80,7 +77,7 @@
               expense.note
             }}</v-card-title>
             <v-card-subtitle class="group-card-head-subtitle"
-              >Total: ₹ {{ expense.totalAmount.toFixed(2) }}</v-card-subtitle
+              >Total: ₹ {{ expense.amount.toFixed(2) }}</v-card-subtitle
             >
           </v-col>
           <v-col style="width: 100%; display: flex; padding-bottom: 0px">
@@ -93,49 +90,6 @@
               Created By: {{ getUserById(expense.createdBy) }}</v-card-subtitle
             >
           </v-col>
-
-          <v-list style="height: 130px">
-            <v-list-item
-              v-for="(user, userIndex) in expense.userList"
-              :key="userIndex"
-            >
-              <v-list-item-content
-                style="display: flex; width: 100%; padding: 0px 10px"
-              >
-                <v-list-item-title
-                  style="display: flex; justify-content: start; width: 50%"
-                >
-                  {{ getUserById(user.userId) }}
-                </v-list-item-title>
-                <v-list-item-title
-                  style="display: flex; justify-content: end; width: 50%"
-                >
-                  ₹ {{ user.splitAmount.toFixed(2) }}
-                </v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-content>
-                <v-list-item-subtitle
-                  v-if="user.payed"
-                  class="paid-badge badge"
-                >
-                  Paid
-                </v-list-item-subtitle>
-                <v-list-item-subtitle
-                  v-else
-                  class="unpaid-badge badge"
-                >
-                  Not Paid
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-
-          <v-card-subtitle style="display: flex; justify-content: end">
-            {{ expense.userList.filter((user) => user.payed).length }}/{{
-              expense.userList.length
-            }}
-            Users Paid
-          </v-card-subtitle>
 
           <v-card-actions
             v-if="isUserAvailableInList(expense)"
@@ -153,10 +107,21 @@
             </v-btn>
           </v-card-actions>
           <v-card-actions
-            v-if="!isUserAvailableInList(expense)"
             style="justify-content: center; width: 100%"
+            :color="hasUserPaid(expense) ? 'green' : 'primary'"
           >
-            <p>*No payment required*</p>
+            <p
+              v-if="!hasUserPaid(expense) && !isUserAvailableInList(expense)"
+              style="color: red;"
+            >
+              *Pending*
+            </p>
+            <p
+              v-if="hasUserPaid(expense) && !isUserAvailableInList(expense)"
+              style="color: green;"
+            >
+              *Received*
+            </p>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -164,7 +129,7 @@
   </div>
 </template>
 
-<script src="./js/group-page.js"></script>
+<script src="./js/user-page.js"></script>
 
 <style scoped>
 .right-column {
@@ -242,6 +207,4 @@
 .unpaid-badge {
   background-color: #ff3333;
 }
-
 </style>
-

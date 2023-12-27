@@ -2,32 +2,33 @@ import { useAppStore } from "../../store/splitwise-store";
 import { mapState, mapActions } from "pinia";
 // import notfound from '@/assets/notfound.gif';
 
-
 export default {
   data() {
     return {
       isLargeScreen: window.innerWidth >= 1250,
       selectedGroup: "",
       search: "",
-      // notfound: notfound,
     };
   },
+  props: ["groups"],
   methods: {
     searchByName() {
-      if(this.search != "")
-        this.GET_GROUP_BY_NAME(this.search);
-      else
-        this.GET_ALL_GROUP();
+      if (this.search != "") this.GET_GROUP_BY_NAME(this.search);
+      else this.GET_ALL_GROUP();
+    },
+    searchByName() {
+      if (this.search != "") this.GET_GROUP_BY_NAME(this.search);
+      else this.GET_ALL_GROUP();
     },
     createGroup() {
       this.$router.push("/add-group");
     },
+
     editGroup(groupId) {
       this.$router.push("/update-group/" + groupId);
     },
     getFirstLetter(text) {
-      if(text)
-        return text.charAt(0).toUpperCase();
+      if (text) return text.charAt(0).toUpperCase();
     },
     navigateToGroup(groupId) {
       this.$router.push("/group/" + groupId);
@@ -36,7 +37,7 @@ export default {
       this.isLargeScreen = window.innerWidth > 1250;
     },
     canEditGroup(group) {
-      const localStorageUserId = localStorage.getItem('userId');
+      const localStorageUserId = localStorage.getItem("userId");
       return localStorageUserId == group.createdBy;
     },
     ...mapActions(useAppStore, ["GET_ALL_GROUP", "GET_GROUP_BY_NAME"]),
@@ -49,7 +50,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useAppStore, ["groups"]),
+    // ...mapState(useAppStore, ["groups"]),
     isHomePath() {
       return this.$route.path === "/" && !this.isLargeScreen;
     },
@@ -60,7 +61,8 @@ export default {
   created() {
     this.selectedGroup = this.$route.params.group_id;
     window.addEventListener("resize", this.handleWindowResize);
-    this.GET_ALL_GROUP();
+    // this.GET_ALL_GROUP();
+    console.log(this.groups);
   },
   destroyed() {
     window.removeEventListener("resize", this.handleWindowResize);

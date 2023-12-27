@@ -24,6 +24,10 @@ export default {
     handleWindowResize() {
       this.isLargeScreen = window.innerWidth > 1250;
     },
+    canEditGroup(group) {
+      const localStorageUserId = localStorage.getItem('userId');
+      return localStorageUserId == group.createdBy;
+    },
     ...mapActions(useAppStore, ["GET_ALL_GROUP"]),
   },
   watch: {
@@ -37,6 +41,9 @@ export default {
     ...mapState(useAppStore, ["groups"]),
     isHomePath() {
       return this.$route.path === "/" && !this.isLargeScreen;
+    },
+    isOnlyHomePath() {
+      return this.$route.path === "/";
     },
   },
   created() {

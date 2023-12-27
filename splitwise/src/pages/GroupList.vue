@@ -1,73 +1,120 @@
 <template>
-  <div class="left-column" :class="{ 'full-width': isHomePath }">
-    <v-row class="group-header">
-      <v-col>
-        <h2>Groups</h2>
-      </v-col>
-      <v-col style="text-align: end">
-        <v-btn @click="createGroup">Create Group</v-btn>
-      </v-col>
-    </v-row>
+  <div
+    :class="{ container: isOnlyHomePath, 'container-small': !isOnlyHomePath }"
+  >
+    <div
+      :class="{
+        'full-width': isHomePath,
+        'left-column': isOnlyHomePath,
+        'full-width-left': !isOnlyHomePath,
+      }"
+    >
+      <v-row class="group-header">
+        <v-col>
+          <h2>Groups</h2>
+        </v-col>
+        <v-col style="text-align: end">
+          <v-btn @click="createGroup">Create Group</v-btn>
+        </v-col>
+      </v-row>
 
-    <v-row class="group-row">
-      <v-col
-        v-for="group in groups"
-        :key="group.groupId"
-        class="group-list"
-        cols="12"
-      >
-        <v-card class="group-card">
-          <v-row
-            :class="{ 'selected-group': group.groupId == selectedGroup }"
-            align="center"
-            style="
-              height: 70px;
-              padding: 0px 10px;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-            "
-          >
-            <div style="width: 70%" @click="navigateToGroup(group.groupId)">
-              <v-avatar
-                size="40"
-                style="margin-left: 10px; background-color: #5c8374"
-                class="group-content-avatar"
-              >
-                <h1 style="font-size: 26px; color: #fff">
-                  {{ getFirstLetter(group.groupName) }}
-                </h1>
-              </v-avatar>
-
-              <span style="font-size: 18px">
-                {{ group.groupName }}
-              </span>
-            </div>
-            <v-icon
+      <v-row class="group-row">
+        <v-col
+          v-for="group in groups"
+          :key="group.groupId"
+          class="group-list"
+          cols="12"
+        >
+          <v-card class="group-card">
+            <v-row
+              :class="{ 'selected-group': group.groupId == selectedGroup }"
+              align="center"
               style="
-                width: 30%;
-                padding: 0px 25px;
+                height: 70px;
+                padding: 0px 10px;
                 display: flex;
-                flex-direction: column;
-                justify-content: end;
-                align-items: end;
+                flex-direction: row;
+                justify-content: space-between;
               "
-              @click="editGroup(group.groupId)"
             >
-              mdi-pencil
-            </v-icon>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
+              <div style="width: 70%" @click="navigateToGroup(group.groupId)">
+                <v-avatar
+                  size="40"
+                  style="margin-left: 10px; background-color: #5c8374"
+                  class="group-content-avatar"
+                >
+                  <h1 style="font-size: 26px; color: #fff">
+                    {{ getFirstLetter(group.groupName) }}
+                  </h1>
+                </v-avatar>
+
+                <span style="font-size: 18px">
+                  {{ group.groupName }}
+                </span>
+              </div>
+              <v-icon
+                style="
+                  width: 30%;
+                  padding: 0px 25px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: end;
+                  align-items: end;
+                "
+                v-if="canEditGroup(group)"
+                @click="editGroup(group.groupId)"
+              >
+                mdi-pencil
+              </v-icon>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+    <div v-if="isOnlyHomePath" class="select-grp">
+      Select a group to view its expense
+    </div>
   </div>
 </template>
 
 <script src="./js/group-list.js"></script>
 
 <style scoped>
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.container-small {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+}
+
+.select-grp {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+@media (max-width: 1250px) {
+  .select-grp {
+    display: none;
+  }
+}
+
 .left-column {
-  width: 25%;
+  width: 30%;
+  padding: 20px;
+  transition: width 0.5s ease;
+}
+
+.full-width-left {
+  width: 100%;
   padding: 20px;
   transition: width 0.5s ease;
 }
@@ -79,6 +126,7 @@
 .group-row {
   height: calc(100vh - 150px);
   overflow-y: auto;
+  display: block;
 }
 
 .group-list {

@@ -8,16 +8,19 @@
         max-width="40px"
         class="logo"
       ></v-img>
-      <v-btn to="/" text class="mr-4">
+      <v-btn to="/" text class="mr-4 nav-home">
         <v-icon size="32">mdi-home</v-icon>
         <p class="nav-text">Home</p>
       </v-btn>
-      <v-btn to="/reports" text>
+      <v-btn to="/reports" text class="nav-home">
         <v-icon size="32">mdi-chart-bar</v-icon>
         <p class="nav-text">Reports</p></v-btn
       >
 
       <v-spacer></v-spacer>
+      <p class="mr-6 user-name" style="font-size: 24px;">
+          {{ currentUserName }}
+      </p>
       <v-btn icon @click="openNotifications" class="mr-4">
         <v-icon size="32">mdi-bell</v-icon>
         <p v-if="notificationCount">
@@ -43,6 +46,17 @@
         ref="notificationComponent"
       />
     </v-main>
+
+    <v-bottom-navigation v-if="isMobileView" class="bottom-nav">
+      <v-btn to="/" text style="width: 50%">
+        <v-icon size="32">mdi-home</v-icon>
+        <p class="nav-text">Home</p>
+      </v-btn>
+      <v-btn to="/reports" text style="width: 50%">
+        <v-icon size="32">mdi-chart-bar</v-icon>
+        <p class="nav-text">Reports</p>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -54,6 +68,16 @@
   background-size: cover;
   background-position: center;
   font-family: "Arial", sans-serif;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  background-color: #1B4242; 
+  color: white; 
+  display: none;
+  justify-content: space-around !important;
+  width: 100%;
 }
 
 .logo {
@@ -78,7 +102,22 @@
 }
 
 @media screen and (max-width: 560px) {
+
+}
+
+@media screen and (max-width: 775px) {
+  /* .user-name{
+    display: none;
+  } */
   .nav-text {
+    display: none;
+  }
+  .bottom-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around !important;
+  }
+  .nav-home{
     display: none;
   }
 }

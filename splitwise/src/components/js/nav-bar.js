@@ -26,16 +26,20 @@ export default {
       localStorage.clear();
     },
     logout() {
-        const loginRequest = {
-          userId: localStorage.getItem("userId"),
-        };
-        const actions = {
-          payload: loginRequest,
-        };
-        this.LOGOUT(actions);
-  },
+      const loginRequest = {
+        userId: localStorage.getItem("userId"),
+      };
+      const actions = {
+        payload: loginRequest,
+      };
+      this.LOGOUT(actions);
+    },
     handleWindowResize() {
       this.isLargeScreen = window.innerWidth > 1250;
+    },
+    onSuccessUsers() {},
+    isMobileView() {
+      return window.innerWidth > 560;
     },
     ...mapActions(useAppStore, [
       "LOGOUT",
@@ -43,6 +47,7 @@ export default {
       "setNotificationTrue",
       "setNotificationFalse",
       "toggleNotification",
+      "GET_ALL_USERS",
     ]),
   },
   watch: {
@@ -60,22 +65,24 @@ export default {
       "notificationCount",
       "loginStatus",
       "showNotification",
+      "currentUserName",
     ]),
     isLoginPage() {
       return this.$route.name != "login";
     },
     isGroupPage() {
-      return this.$route.name == "group-page" ;
+      return this.$route.name == "group-page";
     },
     isListPage() {
-      return !this.$route.params.group_id
-    }
+      return !this.$route.params.group_id;
+    },
   },
   mounted() {
     const userId = localStorage.getItem("userId");
     this.GET_NOTIFICATION(userId);
   },
   created() {
+    this.GET_ALL_USERS(this.onSuccessUsers);
     window.addEventListener("resize", this.handleWindowResize);
   },
   destroyed() {

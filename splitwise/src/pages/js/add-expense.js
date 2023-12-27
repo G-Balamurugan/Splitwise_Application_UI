@@ -7,9 +7,9 @@ export default {
       note: "",
       totalAmount: null,
       selectedCurrency: null,
-      currencies: ["USD", "EURO", "INR"],
+      // currencies: ["USD", "EURO", "INR"],
       selectedCategory: null,
-      categories: ["Food", "Transportation", "Accommodation", "Others"],
+      // categories: ["Food", "Transportation", "Accommodation", "Others"],
       //   users: ["Vignesh", "Bala", "Sangavi"],
       selectedUsers: [],
       splitPercentages: Array(3).fill(""),
@@ -38,7 +38,7 @@ export default {
     canSplitEqually() {
       return this.selectedUsers.some((user) => user);
     },
-    ...mapState(useAppStore, ["users"]),
+    ...mapState(useAppStore, ["users", "currencies", "categories"]),
   },
   methods: {
     shouldDisableSplitPercentage(index) {

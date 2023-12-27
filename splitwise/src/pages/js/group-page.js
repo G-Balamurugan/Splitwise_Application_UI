@@ -9,6 +9,7 @@ export default {
       showInfo: false,
       groupDetail: {},
       groupId: "",
+      selectedCategory: null,
     };
   },
   components: {
@@ -47,8 +48,13 @@ export default {
       const user = this.users.find((u) => u.userId === userId);
       return user ? user.userName : "Unknown User";
     },
-    searchByCategory() {
-      this.GET_EXPENSES_BY_CATEGORY(this.groupId, this.search);
+    // searchByCategory() {  //search
+    //   this.GET_EXPENSES_BY_CATEGORY(this.groupId, this.search);
+    // },
+    searchByCategory(category) {    //dropdown
+      if (this.selectedCategory) {
+        this.GET_EXPENSES_BY_CATEGORY(this.groupId, category);
+      }
     },
     onSuccessUsers() {
     },
@@ -64,9 +70,13 @@ export default {
     ]),
   },
   computed: {
-    ...mapState(useAppStore, ["expenses", "users", "groupDetails"]),
+    ...mapState(useAppStore, ["expenses", "users", "groupDetails", "categories"]),
   },
   watch: {
+    selectedCategory(newValue) {
+      console.log("watch", newValue)
+      this.searchByCategory(newValue)
+    },
     '$route.params.group_id'(newGroupId) {
       if (newGroupId) {
         this.GET_ALL_EXPENSES(newGroupId);
@@ -85,8 +95,8 @@ export default {
     this.groupId = this.$route.params.group_id
     if (this.groupId) {
       this.GET_ALL_EXPENSES(this.groupId);
-      this.GET_ALL_USERS(this.groupId);
-      this.GET_GROUP_DETAILS(this.groupId);  
+      this.GET_ALL_USERS(this.onSuccessUsers);
+      this.GET_GROUP_DETAILS(this.groupId, this.successFetch);  
     }
   },
 

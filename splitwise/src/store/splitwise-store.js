@@ -290,13 +290,20 @@ export const useAppStore = defineStore("app", {
         success();
       } else console.log("Error fetching expense");
     },
+    async ADD_EXPENSE_USER({ payload, success }) {
+      const createExpenseResponse = await services.addExpenseUser(payload);
+      const data = await createExpenseResponse.json();
+      if (createExpenseResponse.status === 200) {
+        success();
+      } else console.log("Error fetching expense");
+    },
     async ADD_GROUP({ payload, success, failure }) {
       const createGroupResponse = await services.addGroup(
         payload,
         localStorage.getItem("userId")
       );
       const data = await createGroupResponse.json();
-      if (createGroupResponse.status === 200 && data.id != 0) {
+      if (createGroupResponse.status === 200 && data.status != "Group Name Already Exists") {
         this.groupCreationStatus = "success";
         success(data.id);
       } else {

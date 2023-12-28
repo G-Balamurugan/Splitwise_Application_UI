@@ -13,27 +13,48 @@ export default {
       //   users: ["Vignesh", "Bala", "Sangavi"],
       selectedUsers: [],
       splitPercentages: Array(3).fill(""),
+      selectedUserId: null,
     };
   },
   computed: {
     isValidForm() {
-      const isTotalAmountValid =
-        !isNaN(this.totalAmount) && parseFloat(this.totalAmount) > 0;
-      const isNote = !!this.note;
-      const isCurrencySelected = !!this.selectedCurrency;
-      const isCategorySelected = !!this.selectedCategory;
-      const isAtLeastOneUserSelected = this.selectedUsers.some((user) => user);
-      const isSumOfSplitPercentagesValid =
-        this.calculateSumOfEnabledSplitPercentages() === 100;
+      if(this.$route.params.group_id){
+        const isTotalAmountValid =
+          !isNaN(this.totalAmount) && parseFloat(this.totalAmount) > 0;
+        const isNote = !!this.note;
+        const isCurrencySelected = !!this.selectedCurrency;
+        const isCategorySelected = !!this.selectedCategory;
+        const isAtLeastOneUserSelected = this.selectedUsers.some((user) => user);
+        const isSumOfSplitPercentagesValid =
+          this.calculateSumOfEnabledSplitPercentages() === 100;
 
-      return (
-        isTotalAmountValid &&
-        isNote &&
-        isCurrencySelected &&
-        isCategorySelected &&
-        isAtLeastOneUserSelected &&
-        isSumOfSplitPercentagesValid
-      );
+        return (
+          isTotalAmountValid &&
+          isNote &&
+          isCurrencySelected &&
+          isCategorySelected &&
+          isAtLeastOneUserSelected &&
+          isSumOfSplitPercentagesValid
+        );
+      }
+      else{
+        const isTotalAmountValid =
+        !isNaN(this.totalAmount) && parseFloat(this.totalAmount) > 0;
+        const isNote = !!this.note;
+        const isCurrencySelected = !!this.selectedCurrency;
+        const isCategorySelected = !!this.selectedCategory;
+        const isSelectedUserId = this.selectedUserId != null;
+
+        console.log(isTotalAmountValid, isNote, isCurrencySelected, isCategorySelected, isSelectedUserId, this.selectedUserId)
+
+        return (
+          isTotalAmountValid &&
+          isNote &&
+          isCurrencySelected &&
+          isCategorySelected &&
+          isSelectedUserId 
+        );
+      }
     },
     canSplitEqually() {
       return this.selectedUsers.some((user) => user);
@@ -69,6 +90,12 @@ export default {
       ).toString();
     },
     createExpense() {
+      if(this.$route.params.group_id)
+        this.groupExpense()
+      else
+        this.userExpense()
+    },
+    groupExpense() {
       if (this.isValidForm) {
         const userList = this.selectedUsers.reduce((acc, selected, index) => {
           if (selected && this.splitPercentages[index] !== "") {
@@ -103,6 +130,23 @@ export default {
         this.ADD_EXPENSE(actions);
       }
     },
+    userExpense(){
+        const expenseRequest = {
+          note: this.note,
+          category: this.selectedCategory,
+          currencyType: this.selectedCurrency,
+          createdBy: localStorage.getItem("userId"),
+          amount: this.totalAmount,
+          receiverUser: this.selectedUserId,
+        };
+
+        const actions = {
+          payload: expenseRequest,
+          success: this.onSuccess,
+        };
+
+        this.ADD_EXPENSE_USER(actions);
+    },
     onSuccess() {
       this.resetForm();
       this.$router.push("/group/" + this.$route.params.group_id);
@@ -121,10 +165,11 @@ export default {
         return user ? equalPercentage.toFixed(2) : "";
       });
     },
-    ...mapActions(useAppStore, ["ADD_EXPENSE", "GET_GROUP_MEMBERS", "GET_CATEGORY_LIST"]),
+    ...mapActions(useAppStore, ["ADD_EXPENSE", "GET_GROUP_MEMBERS", "GET_CATEGORY_LIST", "ADD_EXPENSE_USER"]),
   },
   created() {
-    this.GET_GROUP_MEMBERS(this.$route.params.group_id);
+    if(this.$route.params.group_id)
+      this.GET_GROUP_MEMBERS(this.$route.params.group_id);
     this.GET_CATEGORY_LIST()
   },
 };

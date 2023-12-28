@@ -53,25 +53,37 @@
             </v-col>
           </v-row>
 
-          <v-row v-for="(user, index) in users" :key="index" justify="center">
-            <v-col cols="12" md="6" sm="6" xs="6">
-              <v-checkbox
-                v-model="selectedUsers[index]"
+          <div v-if="$route.params.group_id" justify="center" cols="12">
+            <v-row v-for="(user, index) in users" :key="index" justify="center">
+              <v-col cols="12" md="6" sm="6" xs="6">
+                <v-checkbox
+                  v-model="selectedUsers[index]"
+                  :label="user.userName"
+                ></v-checkbox>
+              </v-col>
+              <v-col cols="12" md="6" sm="6" xs="6">
+                <v-text-field
+                  v-model="splitPercentages[index]"
+                  label="Split %"
+                  type="number"
+                  @input="handleSplitPercentageInput(index)"
+                  :disabled="shouldDisableSplitPercentage(index)"
+                  outlined
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </div>
+          <v-row v-if="!$route.params.group_id">
+            <v-radio-group justify="center" v-model="selectedUserId">
+              <v-radio
+                v-for="(user, index) in users"
+                :key="index"
                 :label="user.userName"
-              ></v-checkbox>
-            </v-col>
-            <v-col cols="12" md="6" sm="6" xs="6">
-              <v-text-field
-                v-model="splitPercentages[index]"
-                label="Split %"
-                type="number"
-                @input="handleSplitPercentageInput(index)"
-                :disabled="shouldDisableSplitPercentage(index)"
-                outlined
-              ></v-text-field>
-            </v-col>
+                :value="user.userId"
+                name="user-radio"
+              ></v-radio>
+            </v-radio-group>
           </v-row>
-
           <v-row justify="center">
             <v-btn
               @click="splitEqually"

@@ -45,9 +45,9 @@
           @closeUserInfo="closeUserInfo"
         />
       </v-col>
-      <v-col justify="end" style="text-align: end">
+      <!-- <v-col justify="end" style="text-align: end">
         <v-btn @click="createExpense">Create Expense</v-btn>
-      </v-col>
+      </v-col> -->
     </v-row>
 
     <v-row
@@ -107,6 +107,7 @@
             </v-btn>
           </v-card-actions>
           <v-card-actions
+            v-if="!isUserAvailableInList(expense)"
             style="justify-content: center; width: 100%"
             :color="hasUserPaid(expense) ? 'green' : 'primary'"
           >

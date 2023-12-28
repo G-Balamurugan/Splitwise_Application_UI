@@ -16,6 +16,9 @@ export default {
     searchByName() {
 
     },
+    createExpense() {
+      this.$router.push("/add-expense/");
+    },
     getFirstLetter(text) {
       if(text)
         return text.charAt(0).toUpperCase();

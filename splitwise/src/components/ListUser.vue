@@ -10,6 +10,9 @@
           ></v-text-field>
           <!-- <h2>Groups</h2> -->
         </v-col>
+        <v-col style="text-align: end; padding-top: 20px">
+          <v-btn @click="createExpense">Create Expense</v-btn>
+        </v-col>
       </v-row>
     
     <v-row class="group-row" v-if="!users.length">

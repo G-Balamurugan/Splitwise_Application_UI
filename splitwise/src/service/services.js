@@ -2,7 +2,7 @@ const local = "http://localhost"
 const net = "http://10.30.1.178"
 const gateway = "http://10.30.1.140"
 
-const url = local
+const url = net
 
 const groupService = url+":8081"    //8081
 const expenseService = url+":8089"    //8089
@@ -113,8 +113,8 @@ const notificationService = url+":8085"   //8085
   const getAllExpensesByCategory = (groupId, category) => {
     // const url = `http://localhost:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
     // const url = `http://10.30.1.178:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
-    const url = `http://${gateway}:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
-    return fetch(url, {
+    const url1 = `${url}:8089/httpmethod/filter-group-category?groupId=${groupId}&category=${category}`;  
+    return fetch(url1, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -198,9 +198,23 @@ const notificationService = url+":8085"   //8085
     });
   };
 
-
   const addExpense = (expenseDetails) => {
     return fetch(expenseService+"/httpmethod/add/expense", {     //8089
+      method: "POST",
+      body: JSON.stringify(expenseDetails),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
+        "User-Id": localStorage.getItem("userId")
+      },
+      mode: "cors",
+    });
+  };
+
+  // addExpenseUser
+
+  const addExpenseUser = (expenseDetails) => {
+    return fetch(expenseService+"/httpmethod/add/non-group-expense", {     //8089
       method: "POST",
       body: JSON.stringify(expenseDetails),
       headers: {
@@ -296,5 +310,6 @@ const notificationService = url+":8085"   //8085
     getUserDetails,
     getExpensesByUser,
     payExpenseUser,
+    addExpenseUser,
   };
   

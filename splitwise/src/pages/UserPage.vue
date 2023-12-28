@@ -26,28 +26,11 @@
           @change="searchByCategory"
         ></v-select>
       </v-col>
-      <!-- <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
-        <v-text-field
-          style=" color:black height: 50px;"
-          v-model="search"
-          label="Search"
-          @keyup.enter="searchByCategory"
-        ></v-text-field>
-      </v-col> -->
+
       <v-col style="font-size: 24px"
         ><strong>{{ userDetail.userName }}</strong></v-col
       >
-      <v-col>
-        <v-icon @click="showUserInfo">mdi-information</v-icon>
-        <UserInfo
-          v-if="showInfo"
-          :groupDetail="userDetails"
-          @closeUserInfo="closeUserInfo"
-        />
-      </v-col>
-      <!-- <v-col justify="end" style="text-align: end">
-        <v-btn @click="createExpense">Create Expense</v-btn>
-      </v-col> -->
+
     </v-row>
 
     <v-row
@@ -55,7 +38,6 @@
       justify="center"
       style="align-items: center; height: calc(100vh - 200px)"
     >
-      <!-- <img src="@/assets/notfound.gif"/> -->
       <h3>Initiate a fresh start by creating a new expense</h3>
     </v-row>
     <v-row v-if="userExpenses.length > 0 && userId" class="expense-container">

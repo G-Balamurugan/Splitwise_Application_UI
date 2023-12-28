@@ -72,7 +72,17 @@ const notificationService = url+":8085"   //8085
       mode: "cors",
     });
   };
-
+  const getUsersByName = (name) => {
+    return fetch(groupService+"/httpmethod/filter-user/" + name, {     //8081  
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
+        "User-Id": localStorage.getItem("userId")
+      },
+      mode: "cors",
+    });
+  };
   const getAllExpenses = (groupId) => {
     return fetch(expenseService+"/httpmethod/expense-list/" + groupId, {     //8089
       method: "GET",
@@ -125,8 +135,11 @@ const notificationService = url+":8085"   //8085
     });
   };
   
-  const getAllUsers = () => {
-    return fetch(groupService+"/httpmethod/user-list", {   //8081
+  const getAllUsers = (userId) => {
+    let url1 = groupService+"/httpmethod/user-list/"
+    if(userId != 0)
+      url1 = url1 + userId
+    return fetch(url1, {   //8081
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -311,5 +324,6 @@ const notificationService = url+":8085"   //8085
     getExpensesByUser,
     payExpenseUser,
     addExpenseUser,
+    getUsersByName,
   };
   

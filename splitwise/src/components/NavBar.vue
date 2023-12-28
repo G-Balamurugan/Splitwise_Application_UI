@@ -19,7 +19,7 @@
 
       <v-spacer></v-spacer>
       <p class="mr-6 user-name" style="font-size: 24px;">
-          {{ currentUserName }}
+          {{ c_user_name }}
       </p>
       <v-btn icon @click="openNotifications" class="mr-4">
         <v-icon size="32">mdi-bell</v-icon>
@@ -36,7 +36,7 @@
 
     <v-main class="content">
       <div class="container">
-        <group-list-page v-if="isGroupPage || isUserPage && isLargeScreen"></group-list-page>
+        <group-list-page v-if="isGroupOrUserPage && isLargeScreen"></group-list-page>
         <!-- <group-list v-if="isGroupPage && isLargeScreen"></group-list> -->
         <router-view></router-view>
       </div>

@@ -15,7 +15,6 @@ export const useAppStore = defineStore("app", {
     showNotification: false,
     categoryWiseReport: [],
     groupWiseReport: {},
-    currentUserName: "",
     currentUserId: localStorage.getItem("userId"),
     currencies: ["USD", "EURO", "INR"],
     categories: [],
@@ -43,7 +42,9 @@ export const useAppStore = defineStore("app", {
         const data = await loginResponse.json();
         localStorage.setItem("userId", data.id);
         localStorage.setItem("phoneNumber", loginDetails.payload.phoneNumber);
+        localStorage.setItem("userName", data.userName)
         localStorage.setItem("token", data.token);
+
         if (
           data.status == "Login Successful" ||
           data.status == "Already Logged In"
@@ -75,9 +76,10 @@ export const useAppStore = defineStore("app", {
         console.error("Error in LOGOUT action:", error);
       }
     },
-    async GET_ALL_USERS(success) {
+    async GET_ALL_USERS(currUserId, success) {
       try {
-        const userResponse = await services.getAllUsers();
+
+        const userResponse = await services.getAllUsers(currUserId);
         const data = await userResponse.json();
         const localStorageUserId = localStorage.getItem('userId');
 
@@ -86,19 +88,6 @@ export const useAppStore = defineStore("app", {
         this.usernames = this.usernames.map((user) => user.userName);
         if (userResponse.status == 200) {
           success();
-          const localStorageUserId = localStorage.getItem("userId");
-          if (localStorageUserId) {
-            const foundUser = this.users.find(
-              (user) => user.userId == localStorageUserId
-            );
-            if (foundUser) {
-              this.currentUserName = foundUser.userName;
-            } else {
-              console.log("User not found in the fetched data");
-            }
-          } else {
-            console.log("userId not found in localStorage");
-          }
         } else {
           console.log("Error in fetch");
         }
@@ -145,6 +134,20 @@ export const useAppStore = defineStore("app", {
         const groupResponse = await services.getGroupByName(name);
         const data = await groupResponse.json();
         this.groups = data;
+        if (groupResponse.status == 200) {
+        } else {
+          console.log("Error in fetch");
+        }
+      } catch (error) {
+        console.error("Error in fetch:", error);
+      }
+    },
+    // getUsersByName
+    async GET_USER_BY_NAME(name) {
+      try {
+        const groupResponse = await services.getUsersByName(name);
+        const data = await groupResponse.json();
+        this.users = data;
         if (groupResponse.status == 200) {
         } else {
           console.log("Error in fetch");

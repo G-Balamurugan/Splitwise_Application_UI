@@ -20,7 +20,7 @@ export default {
       },
       notificationClick(groupId, notificationId) {
         this.READ_NOTIFICATION(notificationId);
-        this.$router.push("/group/" + groupId);
+        // this.$router.push("/group/" + groupId);
       },
       closeNotification() {
           this.$emit("closeNotification"); 

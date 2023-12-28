@@ -43,8 +43,9 @@ export default {
         this.$router.push("/")
         const userId = localStorage.getItem("userId");
         this.GET_NOTIFICATION(userId);
+        this.GET_ALL_USERS(0, this.onSuccessUsers);
       },
-      ...mapActions(useAppStore, ["LOGIN", "GET_NOTIFICATION"]),
+      ...mapActions(useAppStore, ["LOGIN", "GET_NOTIFICATION", "GET_ALL_USERS"]),
     },
     
   computed: {

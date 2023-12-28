@@ -81,7 +81,7 @@ export default {
     '$route.params.group_id'(newGroupId) {
       if (newGroupId) {
         this.GET_ALL_EXPENSES(newGroupId);
-        this.GET_ALL_USERS(this.onSuccessUsers);
+        this.GET_ALL_USERS(0, this.onSuccessUsers);
         this.GET_GROUP_DETAILS(newGroupId, this.successFetch);  
         this.GET_CATEGORY_LIST()
       }
@@ -97,7 +97,7 @@ export default {
     this.groupId = this.$route.params.group_id
     if (this.groupId) {
       this.GET_ALL_EXPENSES(this.groupId);
-      this.GET_ALL_USERS(this.onSuccessUsers);
+      this.GET_ALL_USERS(0, this.onSuccessUsers);
       this.GET_GROUP_DETAILS(this.groupId, this.successFetch);  
       this.GET_CATEGORY_LIST()  
     }

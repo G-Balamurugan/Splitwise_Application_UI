@@ -38,29 +38,11 @@ export default {
       }
     },
     activeTab(newTab) {
-      // Add the highlighted-tab class when the activeTab changes
       if (newTab === 'Group') {
-        this.$nextTick(() => {
-          const groupTab = this.$refs.groupTab;
-          if (groupTab && groupTab.$el) {
-            groupTab.$el.classList.add('highlighted-tab');
-          }
-          const userTab = this.$refs.userTab;
-          if (userTab && userTab.$el) {
-            userTab.$el.classList.remove('highlighted-tab');
-          }
-        });
+        this.GET_ALL_GROUP();
       } else if (newTab === 'User') {
-        this.$nextTick(() => {
-          const userTab = this.$refs.userTab;
-          if (userTab && userTab.$el) {
-            userTab.$el.classList.add('highlighted-tab');
-          }
-          const groupTab = this.$refs.groupTab;
-          if (groupTab && groupTab.$el) {
-            groupTab.$el.classList.remove('highlighted-tab');
-          }
-        });
+        const userId = localStorage.getItem("userId")
+        this.GET_ALL_USERS(userId, this.onSuccessUsers);      
       }
     },
   },

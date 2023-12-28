@@ -85,7 +85,7 @@
 
 <style scoped>
 .group-row {
-  height: calc(100vh - 200px);
+  height: calc(100vh - 300px);
   overflow-y: auto;
   display: block;
 }

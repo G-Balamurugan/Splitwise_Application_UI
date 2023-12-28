@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       isLargeScreen: window.innerWidth >= 1250,
+      c_user_name: localStorage.getItem("userName"),
     };
   },
   computed: {
@@ -65,13 +66,12 @@ export default {
       "notificationCount",
       "loginStatus",
       "showNotification",
-      "currentUserName",
     ]),
     isLoginPage() {
       return this.$route.name != "login";
     },
-    isGroupPage() {
-      return this.$route.name == "group-page";
+    isGroupOrUserPage() {
+      return this.$route.name == "group-page" || this.$route.name == "user-page";
     },
     isUserPage() {
       return this.$route.name == "user-page";
@@ -82,10 +82,11 @@ export default {
   },
   mounted() {
     const userId = localStorage.getItem("userId");
-    this.GET_NOTIFICATION(userId);
+    if(userId)
+      this.GET_NOTIFICATION(userId);
   },
   created() {
-    this.GET_ALL_USERS(this.onSuccessUsers);
+    // this.GET_ALL_USERS(this.onSuccessUsers);
     window.addEventListener("resize", this.handleWindowResize);
   },
   destroyed() {

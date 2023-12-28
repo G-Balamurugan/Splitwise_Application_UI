@@ -45,7 +45,7 @@
           @closeGroupInfo="closeGroupInfo"
         />
       </v-col>
-      <v-col justify="end" style="text-align: end">
+      <v-col>
         <v-btn @click="createExpense">Create Expense</v-btn>
       </v-col>
     </v-row>

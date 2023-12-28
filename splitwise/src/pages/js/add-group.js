@@ -96,7 +96,7 @@ export default {
     ]),
   },
   created() {
-    this.GET_ALL_USERS(this.onSuccessUsers);
+    this.GET_ALL_USERS(0, this.onSuccessUsers);
   },
   mounted() {
     if (this.isUpdate) {

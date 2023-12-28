@@ -14,8 +14,13 @@ export default {
   props: ['users'],
   methods: {
     searchByName() {
-
+      if (this.search != "") this.GET_USER_BY_NAME(this.search);
+      else {
+        const userId = localStorage.getItem("userId")
+        this.GET_ALL_USERS(userId, this.onSuccessUsers);
+      }
     },
+    onSuccessUsers() {},
     createExpense() {
       this.$router.push("/add-expense/");
     },
@@ -29,7 +34,7 @@ export default {
     handleWindowResize() {
       this.isLargeScreen = window.innerWidth > 1250;
     },
-    ...mapActions(useAppStore, ["GET_USER_GROUP_BY_NAME"]),
+    ...mapActions(useAppStore, ["GET_USER_GROUP_BY_NAME", "GET_USER_BY_NAME", "GET_ALL_USERS"]),
   },
   watch: {
     "$route.params.user_id"(newGroupId) {
@@ -39,7 +44,7 @@ export default {
     },
   },
   computed: {
-    // ...mapState(useAppStore, ["groups"]),
+    // ...mapState(useAppStore, ["users"]),
 
   },
   created() {

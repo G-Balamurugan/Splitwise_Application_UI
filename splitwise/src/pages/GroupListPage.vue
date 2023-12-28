@@ -14,13 +14,13 @@
           <v-tab
             :class="{ 'highlighted-tab': activeTab === 'Group' }"
             value="Group"
-            style="width: 50%"
+            style="width: 50%; text-transform: capitalize; font-size: 18px;"
             >Group</v-tab
           >
           <v-tab
             :class="{ 'highlighted-tab': activeTab === 'User' }"
             value="User"
-            style="width: 50%"
+            style="width: 50%; text-transform: capitalize; font-size: 18px;"
             >User</v-tab
           >
         </v-tabs>
@@ -35,7 +35,8 @@
       </v-row>
     </div>
     <div v-if="isOnlyHomePath" class="select-grp">
-      Select a group to view its expense
+      <!-- Select a group to view its expense -->
+      <img height="350px" style="opacity: 0.7;" src="@/assets/homeimage.png"/>
     </div>
   </div>
 </template>
@@ -102,7 +103,7 @@
 }
 
 .highlighted-tab {
-  background-color: #9ec8b9;
+  background-color: #5c8374;
   color: #fff;
 }
 </style>

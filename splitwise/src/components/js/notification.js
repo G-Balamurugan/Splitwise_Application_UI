@@ -32,7 +32,6 @@ export default {
       ...mapState(useAppStore, ["notifications"]),
     },
     mounted() {
-      console.log(this.notifications)
       document.body.addEventListener("click", this.closeNotificationOnClickOutside);
     },
   };

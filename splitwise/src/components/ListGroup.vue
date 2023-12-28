@@ -10,8 +10,8 @@
           ></v-text-field>
           <!-- <h2>Groups</h2> -->
         </v-col>
-        <v-col style="text-align: end; margin-bottom: 20px">
-          <v-btn @click="createGroup">Create Group</v-btn>
+        <v-col style="text-align: end; margin-bottom: 20px;">
+          <v-btn @click="createGroup" style="text-transform: capitalize; font-size: 16px;">Create Group</v-btn>
         </v-col>
       </v-row>
     <v-row class="group-row" v-if="!groups.length">
@@ -58,7 +58,7 @@
               </v-avatar>
 
               <span style="font-size: 18px">
-                {{ group.groupName }}
+                {{ capitalize(group.groupName) }}
               </span>
             </div>
             <v-icon

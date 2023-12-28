@@ -20,14 +20,12 @@ export default {
   },
   methods: {
     switchTab(tab) {
-      console.log(tab, "tab")
       this.activeTab = tab;
     },
     handleWindowResize() {
       this.isLargeScreen = window.innerWidth > 1250;
     },
     onSuccessUsers() {
-      // console.log(this.users)
     },
     ...mapActions(useAppStore, ["GET_ALL_GROUP", "GET_GROUP_BY_NAME", "GET_ALL_USERS"]),
   },
@@ -60,8 +58,6 @@ export default {
     window.addEventListener("resize", this.handleWindowResize);
     this.GET_ALL_GROUP();
     // this.GET_ALL_USERS(this.onSuccessUsers);
-    console.log(this.users)
-    console.log(this.activeTab)
 
   },
   destroyed() {

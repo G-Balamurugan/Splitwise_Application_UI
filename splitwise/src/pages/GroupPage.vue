@@ -5,7 +5,8 @@
       justify="center"
       style="align-items: center; height: calc(100vh - 200px)"
     >
-      <h3>Select a group to view its expenses</h3>
+      <!-- <h3>Select a group to view its expenses</h3> -->
+      <img height="350px" style="opacity: 0.5;" src="@/assets/expenseimage.png"/>
     </v-row>
 
     <v-row
@@ -34,7 +35,7 @@
           @keyup.enter="searchByCategory"
         ></v-text-field>
       </v-col> -->
-      <v-col style="font-size: 24px"
+      <v-col style="font-size: 24px; text-transform: capitalize;" 
         ><strong>{{ groupDetail.groupName }}</strong></v-col
       >
       <v-col>
@@ -46,7 +47,7 @@
         />
       </v-col>
       <v-col>
-        <v-btn @click="createExpense">Create Expense</v-btn>
+        <v-btn @click="createExpense" style="text-transform: capitalize; font-size: 16px;">Create Expense</v-btn>
       </v-col>
     </v-row>
 
@@ -56,7 +57,8 @@
       style="align-items: center; height: calc(100vh - 200px)"
     >
     <!-- <img src="@/assets/notfound.gif"/> -->
-      <h3>Initiate a fresh start by creating a new expense</h3>
+      <!-- <h3>Initiate a fresh start by creating a new expense</h3> -->
+      <img height="350px" style="opacity: 0.5;" src="@/assets/expenseimage.png"/>
     </v-row>
     <v-row
       v-if="expenses.length > 0 && groupId"

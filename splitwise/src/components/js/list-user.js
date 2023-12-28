@@ -51,8 +51,6 @@ export default {
     this.selectedGroup = this.$route.params.user_id;
     window.addEventListener("resize", this.handleWindowResize);
     // this.GET_ALL_GROUP();
-    console.log(this.groups)
-
   },
   destroyed() {
     window.removeEventListener("resize", this.handleWindowResize);

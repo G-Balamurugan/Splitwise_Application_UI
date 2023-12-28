@@ -29,7 +29,11 @@ export default {
       const userId = localStorage.getItem("userId");
       this.PAY_EXPENSE(expenseId, userId, this.groupId);
     },
-
+    // capitalize1(word) {
+    //   console.log(word.charAt(0))
+    //   if(word.length > 1)
+    //     return word.charAt(0).toUpperCase() + word.slice(1);
+    // },
     hasUserPaid(expense) {
       const loggedInUserId = localStorage.getItem("userId");
       for (let i = 0; i < expense.userList.length; i++) {
@@ -75,7 +79,6 @@ export default {
   },
   watch: {
     selectedCategory(newValue) {
-      console.log("watch", newValue)
       this.searchByCategory(newValue)
     },
     '$route.params.group_id'(newGroupId) {

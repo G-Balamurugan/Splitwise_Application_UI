@@ -5,7 +5,8 @@
       justify="center"
       style="align-items: center; height: calc(100vh - 200px)"
     >
-      <h3>Select a user to view expenses</h3>
+      <!-- <h3>Select a user to view expenses</h3> -->
+      <img height="350px" style="opacity: 0.7;" src="@/assets/expenseimage.png"/>
     </v-row>
 
     <v-row
@@ -38,7 +39,9 @@
       justify="center"
       style="align-items: center; height: calc(100vh - 200px)"
     >
-      <h3>Initiate a fresh start by creating a new expense</h3>
+      <!-- <h3>Initiate a fresh start by creating a new expense</h3> -->
+      <img height="350px" style="opacity: 0.7;" src="@/assets/expenseimage.png"/>
+
     </v-row>
     <v-row v-if="userExpenses.length > 0 && userId" class="expense-container">
       <v-col

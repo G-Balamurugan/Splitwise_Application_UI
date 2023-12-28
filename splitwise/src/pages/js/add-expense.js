@@ -45,8 +45,6 @@ export default {
         const isCategorySelected = !!this.selectedCategory;
         const isSelectedUserId = this.selectedUserId != null;
 
-        console.log(isTotalAmountValid, isNote, isCurrencySelected, isCategorySelected, isSelectedUserId, this.selectedUserId)
-
         return (
           isTotalAmountValid &&
           isNote &&
@@ -124,7 +122,7 @@ export default {
 
         const actions = {
           payload: expenseRequest,
-          success: this.onSuccess,
+          success: this.onSuccessGroup,
         };
 
         this.ADD_EXPENSE(actions);
@@ -142,14 +140,18 @@ export default {
 
         const actions = {
           payload: expenseRequest,
-          success: this.onSuccess,
+          success: this.onSuccessUser,
         };
 
         this.ADD_EXPENSE_USER(actions);
     },
-    onSuccess() {
+    onSuccessGroup() {
       this.resetForm();
       this.$router.push("/group/" + this.$route.params.group_id);
+    },
+    onSuccessUser() {
+      this.resetForm();
+      this.$router.push("/user/" + this.selectedUserId);
     },
     resetForm() {
       this.note = "";

@@ -176,12 +176,12 @@ export default defineComponent({
             datasets: [
               {
                 label: "Total to Pay",
-                backgroundColor: "#ff3333",
+                backgroundColor: "#E8413D",
                 data: dataToPay,
               },
               {
                 label: "Total to Receive",
-                backgroundColor: "green",
+                backgroundColor: "#507B58",
                 data: dataToReceive,
               },
             ],
@@ -212,12 +212,12 @@ export default defineComponent({
             datasets: [
               {
                 label: "Total to Pay",
-                backgroundColor: "#ff3333",
+                backgroundColor: "#E8413D",
                 data: dataToPay1,
               },
               {
                 label: "Total to Receive",
-                backgroundColor: "green",
+                backgroundColor: "#507B58",
                 data: dataToReceive1,
               },
             ],

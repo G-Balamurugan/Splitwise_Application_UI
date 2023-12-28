@@ -36,7 +36,6 @@ export default {
             };
             this.LOGIN(actions);
           } else {
-            console.log("Form is invalid. Cannot submit.");
           }
       },
       onSuccessOfLogin() {

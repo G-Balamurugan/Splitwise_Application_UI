@@ -100,7 +100,6 @@ export default {
   },
   watch: {
     selectedCategory(newValue) {
-      console.log("watch", newValue)
       this.searchByCategory(newValue)
     },
     '$route.params.user_id'(newUserId) {
@@ -120,7 +119,6 @@ export default {
   },
   created() {
     this.userId = this.$route.params.user_id
-    console.log(this.userId)
     if (this.userId) {
       this.GET_EXPENSES_BY_USER(this.userId);
       // this.GET_ALL_USERS(this.onSuccessUsers);

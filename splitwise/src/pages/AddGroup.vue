@@ -52,6 +52,7 @@
           @click="createOrUpdateGroup"
           :disabled="!formIsValid"
           color="#1B4242"
+          style="text-transform: capitalize; font-size: 16px;"
           >{{ isUpdate ? "Update Group" : "Create Group" }}</v-btn
         >
       </v-row>

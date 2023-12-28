@@ -89,13 +89,14 @@
               @click="splitEqually"
               :disabled="!canSplitEqually"
               color="#1B4242"
-              style="margin: 0px 30px"
+              style="text-transform: capitalize; font-size: 16px; margin: 0px 30px"
               >Split Equally</v-btn
             >
             <v-btn
               @click="createExpense"
               :disabled="!isValidForm"
               color="#1B4242"
+              style="text-transform: capitalize; font-size: 16px;"
               >Create Expense</v-btn
             >
           </v-row>

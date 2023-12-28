@@ -40,6 +40,9 @@ export default {
       const localStorageUserId = localStorage.getItem("userId");
       return localStorageUserId == group.createdBy;
     },
+    capitalize(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    },
     ...mapActions(useAppStore, ["GET_ALL_GROUP", "GET_GROUP_BY_NAME"]),
   },
   watch: {
@@ -62,7 +65,6 @@ export default {
     this.selectedGroup = this.$route.params.group_id;
     window.addEventListener("resize", this.handleWindowResize);
     // this.GET_ALL_GROUP();
-    console.log(this.groups);
   },
   destroyed() {
     window.removeEventListener("resize", this.handleWindowResize);

@@ -22,7 +22,7 @@
     <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
         <v-select
           v-model="selectedCategory"
-          :items="categories"
+          :items="filterCategory"
           label="Select a category"
           @change="searchByCategory"
         ></v-select>

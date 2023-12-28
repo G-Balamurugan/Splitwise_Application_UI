@@ -18,6 +18,7 @@ export const useAppStore = defineStore("app", {
     currentUserId: localStorage.getItem("userId"),
     currencies: ["USD", "EURO", "INR"],
     categories: [],
+    filterCategory: [],
     userDetails: {},
     userExpenses: [],
     // categories: ["Food", "Transportation", "Accommodation", "Others"],
@@ -119,6 +120,8 @@ export const useAppStore = defineStore("app", {
         const categoryResponse = await services.getCategoryList();
         const data = await categoryResponse.json();
         this.categories = data.categoryList;
+        this.filterCategory = data.categoryList;
+        this.filterCategory.unshift("All")
         console.log(this.categories)
         if (categoryResponse.status == 200) {
         } else {

@@ -85,7 +85,7 @@
             </v-radio-group>
           </v-row>
           <v-row justify="center">
-            <v-btn
+            <v-btn v-if="$route.params.group_id"
               @click="splitEqually"
               :disabled="!canSplitEqually"
               color="#1B4242"

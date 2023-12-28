@@ -18,14 +18,14 @@
         height: 100px;
       "
     >
-      <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
+      <!-- <v-col cols="12" sm="6" md="4" style="margin-top: 20px">
         <v-select
           v-model="selectedCategory"
           :items="categories"
           label="Select a category"
           @change="searchByCategory"
         ></v-select>
-      </v-col>
+      </v-col> -->
 
       <v-col style="font-size: 24px"
         ><strong>{{ userDetail.userName }}</strong></v-col

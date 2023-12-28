@@ -168,9 +168,9 @@
   overflow-y: auto;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 600px) {
   .expense-container {
-    margin-top: 150px;
+    margin-top: 100px;
   }
 }
 

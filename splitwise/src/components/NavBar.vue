@@ -18,7 +18,7 @@
       >
 
       <v-spacer></v-spacer>
-      <p class="mr-6 user-name" style="font-size: 24px;">
+      <p class="mr-6 user-name" style="font-size: 20px;">
           {{ c_user_name }}
       </p>
       <v-btn icon @click="openNotifications" class="mr-4">
